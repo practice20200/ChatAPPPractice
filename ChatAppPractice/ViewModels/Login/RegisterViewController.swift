@@ -20,7 +20,9 @@ class RegisterViewController: UIViewController {
     
     lazy var iconImageView : BaseUIImageView = {
         let imageView = BaseUIImageView()
-        imageView.image = UIImage(named: "icon500")
+        imageView.image = UIImage(systemName: "person")
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .gray
         return imageView
     }()
     
@@ -110,10 +112,10 @@ class RegisterViewController: UIViewController {
         scrollView.addSubview(iconImageView)
         scrollView.addSubview(inputStack)
         scrollView.addSubview(registerButton)
-        scrollView.addSubview(userNameTF)
         
-        
-        
+        iconImageView.isUserInteractionEnabled = true
+        scrollView.isUserInteractionEnabled = true
+
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -134,9 +136,15 @@ class RegisterViewController: UIViewController {
             registerButton.widthAnchor.constraint(equalTo: inputStack.widthAnchor, multiplier: 5/7),
         ])
         
+        userNameTF.delegate = self
         emailTF.delegate = self
         passTF.delegate = self
         
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTappedProfileImage))
+        gesture.numberOfTapsRequired = 1
+        gesture.numberOfTapsRequired = 1
+        iconImageView.addGestureRecognizer(gesture)
         let registerButton = UIBarButtonItem(title: "Register", style: .done, target: self, action: #selector(registerHandler))
         self.navigationItem.rightBarButtonItem = registerButton
     }
@@ -179,6 +187,10 @@ class RegisterViewController: UIViewController {
         
         let vc = ConversationViewController()
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func didTappedProfileImage(){
+        
     }
     
 
