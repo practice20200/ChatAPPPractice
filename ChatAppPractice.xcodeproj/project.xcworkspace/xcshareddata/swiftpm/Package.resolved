@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Elements",
+        "repositoryURL": "https://github.com/practice20200/ElementKit",
+        "state": {
+          "branch": null,
+          "revision": "bff28f2936db5b9471a312daa5cba06159bada07",
+          "version": "1.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

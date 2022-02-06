@@ -105,6 +105,9 @@ class LoginViewController: UIViewController {
             loginButton.widthAnchor.constraint(equalTo: inputStack.widthAnchor, multiplier: 5/7),
         ])
         
+        emailTF.delegate = self
+        passTF.delegate = self
+        
         let registerButton = UIBarButtonItem(title: "Register", style: .done, target: self, action: #selector(registerHandler))
         self.navigationItem.rightBarButtonItem = registerButton
     }
@@ -134,6 +137,8 @@ class LoginViewController: UIViewController {
     }
     
     @objc func loginHandler(){
+        emailTF.resignFirstResponder()
+        passTF.resignFirstResponder()
         
         guard let email = emailTF.text , !email.isEmpty,
               let password = passTF.text, !password.isEmpty, password.count >= 8 else {
@@ -146,4 +151,18 @@ class LoginViewController: UIViewController {
     }
     
 
+}
+
+
+extension LoginViewController : UITextFieldDelegate{
+    // when users enter, automatically move to the next page
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailTF{
+            passTF.becomeFirstResponder()
+        }else if textField == passTF{
+            loginHandler()
+        }
+        
+        return true
+    }
 }
