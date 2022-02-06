@@ -19,6 +19,7 @@
 		B3E02B8727B0575100ADA9F4 /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E02B8627B0575100ADA9F4 /* VideoPlayerViewController.swift */; };
 		B3E02B8927B0576200ADA9F4 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E02B8827B0576200ADA9F4 /* NewConversationViewController.swift */; };
 		B3E02B8B27B0577500ADA9F4 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E02B8A27B0577500ADA9F4 /* ProfileViewController.swift */; };
+		B3E02B8E27B0593200ADA9F4 /* Elements in Frameworks */ = {isa = PBXBuildFile; productRef = B3E02B8D27B0593200ADA9F4 /* Elements */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3E02B8E27B0593200ADA9F4 /* Elements in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +151,9 @@
 			dependencies = (
 			);
 			name = ChatAppPractice;
+			packageProductDependencies = (
+				B3E02B8D27B0593200ADA9F4 /* Elements */,
+			);
 			productName = ChatAppPractice;
 			productReference = B3E02B6327B0549C00ADA9F4 /* ChatAppPractice.app */;
 			productType = "com.apple.product-type.application";
@@ -177,6 +182,9 @@
 				Base,
 			);
 			mainGroup = B3E02B5A27B0549C00ADA9F4;
+			packageReferences = (
+				B3E02B8C27B0593200ADA9F4 /* XCRemoteSwiftPackageReference "ElementKit" */,
+			);
 			productRefGroup = B3E02B6427B0549C00ADA9F4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -430,6 +438,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B3E02B8C27B0593200ADA9F4 /* XCRemoteSwiftPackageReference "ElementKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/practice20200/ElementKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B3E02B8D27B0593200ADA9F4 /* Elements */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B3E02B8C27B0593200ADA9F4 /* XCRemoteSwiftPackageReference "ElementKit" */;
+			productName = Elements;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B3E02B5B27B0549C00ADA9F4 /* Project object */;
 }
