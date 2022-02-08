@@ -190,7 +190,7 @@ class RegisterViewController: UIViewController {
     }
     
     @objc func didTappedProfileImage(){
-        
+        print("Change picture request")
     }
     
 
