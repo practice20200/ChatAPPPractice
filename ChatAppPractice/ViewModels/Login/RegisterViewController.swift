@@ -10,7 +10,7 @@ import Elements
 
 class RegisterViewController: UIViewController, UINavigationControllerDelegate {
 
-    //-------------------Ellements  ==============================
+    //==========================   Ellements  ==============================
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.clipsToBounds = true
@@ -23,6 +23,12 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
         imageView.image = UIImage(systemName: "person")
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .gray
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 2
+        imageView.layer.borderColor = UIColor.lightGray.cgColor
+        imageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        imageView.layer.cornerRadius = 100
         return imageView
     }()
     
@@ -124,8 +130,8 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
                         
             iconImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50),
             iconImageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            iconImageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 2/7),
-            iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor),
+//            iconImageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 2/7),
+//            iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor),
             
             inputStack.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: 50),
             inputStack.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
