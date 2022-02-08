@@ -8,7 +8,7 @@
 import UIKit
 import Elements
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, UINavigationControllerDelegate {
 
     //-------------------Ellements  ==============================
     lazy var scrollView: UIScrollView = {
@@ -191,6 +191,7 @@ class RegisterViewController: UIViewController {
     
     @objc func didTappedProfileImage(){
         print("Change picture request")
+        presentPhotoActionSheet()
     }
     
 
@@ -209,4 +210,53 @@ extension RegisterViewController : UITextFieldDelegate{
         return true
     }
 
+}
+
+
+extension RegisterViewController: UIImagePickerControllerDelegate {
+    
+    func presentPhotoActionSheet(){
+        let actionSheet = UIAlertController(title: "Profile Picture", message: "How would you like to select your picture?", preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let takePhotoAction = UIAlertAction(title: "Take a photo", style: .default) { [weak self] _ in
+            self?.presentCamera()
+        }
+        let selectPhotoAction = UIAlertAction(title: "Choose a photo", style: .default) { [weak self] _ in
+            self?.presentPhotoPicker()
+        }
+        actionSheet.addAction(cancelAction)
+        actionSheet.addAction(takePhotoAction)
+        actionSheet.addAction(selectPhotoAction)
+        present(actionSheet, animated: true)
+    }
+    
+    func presentCamera(){
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.delegate = self
+        vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    
+    func presentPhotoPicker(){
+        let vc = UIImagePickerController()
+        vc.sourceType = .photoLibrary
+        vc.delegate = self
+        vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    
+    //when users chose
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        print(info)
+        guard let selectImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        self.iconImageView.image = selectImage
+    }
+    
+    // users cancel
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
 }
