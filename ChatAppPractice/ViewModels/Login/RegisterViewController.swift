@@ -7,6 +7,7 @@
 
 import UIKit
 import Elements
+import FirebaseAuth
 
 class RegisterViewController: UIViewController, UINavigationControllerDelegate {
 
@@ -190,6 +191,15 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
                       errorAlert()
                       return
         }
+        
+        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            guard let result = authResult, error == nil else{
+                print("Error occured")
+                return
+            }
+            
+            let user = result.user
+            print("Created a new user: \(user)")        }
         
         let vc = ConversationViewController()
         self.navigationController?.pushViewController(vc, animated: true)

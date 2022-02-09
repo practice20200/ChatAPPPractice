@@ -7,6 +7,7 @@
 
 import UIKit
 import Elements
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
@@ -108,6 +109,8 @@ class LoginViewController: UIViewController {
         emailTF.delegate = self
         passTF.delegate = self
         
+       
+        
         let registerButton = UIBarButtonItem(title: "Register", style: .done, target: self, action: #selector(registerHandler))
         self.navigationItem.rightBarButtonItem = registerButton
     }
@@ -146,8 +149,19 @@ class LoginViewController: UIViewController {
                   return
         }
         
-        let vc = ConversationViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) {authResult, error in
+            guard let result = authResult, error == nil else {
+                print("error occured")
+                return
+            }
+            
+            let user = result.user
+            print("===============================logged in successfully with this user: \(user)")
+        }
+        
+        
+//        let vc = ConversationViewController()
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
     
 
