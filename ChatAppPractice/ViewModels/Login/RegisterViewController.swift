@@ -21,7 +21,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
     
     lazy var iconImageView : BaseUIImageView = {
         let imageView = BaseUIImageView()
-        imageView.image = UIImage(systemName: "person")
+        imageView.image = UIImage(systemName: "person.circle")
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .gray
         imageView.layer.masksToBounds = true
@@ -164,8 +164,8 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
     
     
     // ============================== Functions ==============================
-    func errorAlert(){
-        let alert = UIAlertController(title: "Error", message: "Password or email is invalidate. Please enter your log in information again.", preferredStyle: .alert)
+    func errorAlert(message: String = "Password or email is invalidate. Please enter your log in information again."){
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         
         alert.addAction(cancelAction)
@@ -192,17 +192,34 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
                       return
         }
         
-        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-            guard let result = authResult, error == nil else{
-                print("Error occured")
+        DatabaseManager.shared.userExists(with: email, completion: {[weak self] exists in
+            guard let strongSelf = self else { return }
+            guard !exists else{
+                strongSelf.errorAlert(message: "Error: This user already exists.")
+                print("user already exists.")
                 return
             }
+
+            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+               
+                guard authResult != nil, error == nil else{
+                    print("Error occured")
+                    return
+                }
+                
+                DatabaseManager.shared.insertUser(with: ChatAppUser(
+                                                userName: userName,
+                                                email: email
+                                                )
+                )
+                print("Created a new user:")
+                
+                strongSelf.navigationController?.dismiss(animated: true,completion: nil)
+            }
             
-            let user = result.user
-            print("Created a new user: \(user)")        }
-        
-        let vc = ConversationViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+//            let vc = ConversationViewController()
+//            self.navigationController?.pushViewController(vc, animated: true)
+        })
     }
     
     @objc func didTappedProfileImage(){

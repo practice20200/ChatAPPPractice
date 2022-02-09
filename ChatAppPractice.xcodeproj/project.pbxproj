@@ -25,6 +25,7 @@
 		B3E02B9E27B3726F00ADA9F4 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = B3E02B9D27B3726F00ADA9F4 /* FirebaseDatabase */; };
 		B3E02BA027B3727000ADA9F4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B3E02B9F27B3726F00ADA9F4 /* FirebaseStorage */; };
 		B3E02BA227B3738400ADA9F4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B3E02BA127B3738300ADA9F4 /* GoogleService-Info.plist */; };
+		B3E02BA427B3915700ADA9F4 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E02BA327B3915600ADA9F4 /* DatabaseManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		B3E02B8827B0576200ADA9F4 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
 		B3E02B8A27B0577500ADA9F4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		B3E02BA127B3738300ADA9F4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B3E02BA327B3915600ADA9F4 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 			children = (
 				B3E02B6827B0549C00ADA9F4 /* SceneDelegate.swift */,
 				B3E02B6627B0549C00ADA9F4 /* AppDelegate.swift */,
+				B3E02BA327B3915600ADA9F4 /* DatabaseManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3E02BA427B3915700ADA9F4 /* DatabaseManager.swift in Sources */,
 				B3E02B6B27B0549C00ADA9F4 /* ConversationViewController.swift in Sources */,
 				B3E02B6727B0549C00ADA9F4 /* AppDelegate.swift in Sources */,
 				B3E02B8927B0576200ADA9F4 /* NewConversationViewController.swift in Sources */,

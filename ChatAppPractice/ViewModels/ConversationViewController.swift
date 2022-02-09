@@ -6,19 +6,25 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class ConversationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.yellow
+        
+        //DatabaseManager.shared.test()
+        //DatabaseManager.shared.insertUser(with: <#T##ChatAppUser#>)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let isLoggedIn = UserDefaults.standard.bool(forKey: "loggedIn")
-       
-        if !isLoggedIn {
+        validateAuth()
+    }
+    
+    private func validateAuth(){
+        if FirebaseAuth.Auth.auth().currentUser != nil {
             let vc = LoginViewController()
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .fullScreen
