@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Conversation View Controller-->
+        <!--Chats-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ConversationViewController" customModule="ChatAppPractice" customModuleProvider="target" sceneMemberID="viewController">
@@ -18,23 +18,38 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="kPN-MG-7ik"/>
+                    <navigationItem key="navigationItem" title="Chats" id="kPN-MG-7ik"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="29" y="765"/>
         </scene>
-        <!--View Controller-->
+        <!--Profile-->
         <scene sceneID="TWs-Eb-y3f">
             <objects>
-                <viewController id="u87-WN-qWY" sceneMemberID="viewController">
+                <viewController id="u87-WN-qWY" customClass="ProfileViewController" customModule="ChatAppPractice" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LO5-Wd-Ah0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="EaH-UU-ZU2">
+                                <rect key="frame" x="0.0" y="140" width="414" height="673"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="4m2-Vf-8Jq"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="EaH-UU-ZU2" firstAttribute="top" secondItem="4m2-Vf-8Jq" secondAttribute="top" id="JQH-cY-DeF"/>
+                            <constraint firstItem="4m2-Vf-8Jq" firstAttribute="bottom" secondItem="EaH-UU-ZU2" secondAttribute="bottom" id="LEG-8k-qGD"/>
+                            <constraint firstItem="4m2-Vf-8Jq" firstAttribute="trailing" secondItem="EaH-UU-ZU2" secondAttribute="trailing" id="QxT-VU-gvf"/>
+                            <constraint firstItem="EaH-UU-ZU2" firstAttribute="leading" secondItem="4m2-Vf-8Jq" secondAttribute="leading" id="aeQ-qX-8hR"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="V7t-bL-MLG"/>
+                    <navigationItem key="navigationItem" title="Profile" id="V7t-bL-MLG"/>
+                    <connections>
+                        <outlet property="tableView" destination="EaH-UU-ZU2" id="nES-aN-gUw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OOT-nD-ICU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -63,8 +78,8 @@
             <objects>
                 <navigationController id="UNP-2T-DCH" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="WGM-X6-9XP"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="S7P-fl-H7L">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="S7P-fl-H7L">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -81,8 +96,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="er5-Kd-Pyv" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="5EK-oe-nPJ"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pTL-t9-4rq">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="pTL-t9-4rq">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
