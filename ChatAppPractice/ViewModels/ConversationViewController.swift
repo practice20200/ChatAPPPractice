@@ -13,9 +13,7 @@ class ConversationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.yellow
-        
-        //DatabaseManager.shared.test()
-        //DatabaseManager.shared.insertUser(with: <#T##ChatAppUser#>)
+  
     }
 
     override func viewDidAppear(_ animated: Bool) {

@@ -19,7 +19,12 @@ extension DatabaseManager{
     
     public func userExists(with email: String, completion: @escaping((Bool) -> Void)){
         
-        database.child(email).observeSingleEvent(of: .value, with: { snapshot in
+        // to avoid confliction from invalid Path with some symbols(".", "@"......)
+        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+
+        
+        database.child(safeEmail).observeSingleEvent(of: .value, with: { snapshot in
             guard snapshot.value as? String != nil else {
                 completion(false)
                 print("Error: this user already exists.")
@@ -31,7 +36,7 @@ extension DatabaseManager{
     }
     
     public func insertUser(with user : ChatAppUser){
-        database.child(user.email).setValue(["user name": user.userName])
+        database.child(user.sefeEmail).setValue(["user name": user.userName])
     }
     
     
@@ -42,4 +47,10 @@ struct ChatAppUser{
     var userName: String
     var email: String
     //var profilePictureURL: String
+    
+    var sefeEmail: String{
+        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        return safeEmail
+    }
 }
