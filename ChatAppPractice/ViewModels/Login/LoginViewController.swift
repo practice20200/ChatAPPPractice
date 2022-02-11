@@ -199,17 +199,46 @@ extension LoginViewController : UITextFieldDelegate{
 
 //extension LoginViewController : LoginButtonDelegate{
 //    func loginButtonDidLogOut(_LoginButton: FBLoginButton){
-//        
+//
 //    }
-//    
+//
 //    func loginButton(_loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?){
-//       
-//        
+//
+//
 //        guard let token = result.token.tokenString else {
 //            print("User failed to log in with facebook")
 //            return
 //        }
-//        
+//        let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me"
+//                                                         parameters: ["friends": "email, name"],
+//                                                         tokenString: token,
+//                                                         version: nil,
+//                                                         httpMethod: .get)
+//        facebookRequest.start(completionHandler: { _, result, error in
+//            guard let result = result as [String: Any],
+//            error == nil else{
+//                print("Failed to make facebook graph request.")
+//                return
+//            }
+//
+//            guard let userName = result["name"] as? String,
+//            let email = result["email"] as? String else{
+//                print("Failed to get email and Name from fb result.")
+//            }
+//
+//            let nameComponents = userName.components(separatedBy: " ")
+//            guard nameComponents.count == 2 else{ return }
+//            let firstName = nameComponents[0]
+//            let lastName = nameComponents[1]
+//            let userName = firstName + lastName
+//            DatabaseManger.shared.userExists(with: email) { exists in
+//                if !exists{
+//                    DatabaseManager.shared.insertUser(with: ChatAppUser(userName: userName, email: email))
+//                }
+//            }
+//
+//        })
+//// 
 //        let credential = FacebookAuthProvider.credential(withAccessToken: token)
 //        FirebaseAuth.Auth.auth().signIn(with: Credentials, completion: { [weak self] authResult, error in
 //            guard let strongSelf = self else { return }
@@ -217,6 +246,6 @@ extension LoginViewController : UITextFieldDelegate{
 //            print("Successfully logged a user in")
 //            strongSelf.navigationController.dismiss(animated: true, completion: nil)
 //        })
-//    
+//
 //    }
 //}
