@@ -39,7 +39,6 @@ class ConversationViewController: UIViewController {
     
     
     //===================== views ======================
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
@@ -68,7 +67,6 @@ class ConversationViewController: UIViewController {
     
     
     //===================== functions ======================
-    
     private func validateAuth(){
         if FirebaseAuth.Auth.auth().currentUser == nil {
             let vc = LoginViewController()

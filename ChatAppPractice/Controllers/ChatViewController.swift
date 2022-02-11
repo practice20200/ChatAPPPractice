@@ -8,31 +8,6 @@
 import UIKit
 import MessageKit
 
-struct Message : MessageType {
-    var sender: SenderType
-    var messageId: String
-    var sentDate: Date
-    var kind: MessageKind
-}
-
-
-struct Sender: SenderType{
-    var photpURL: String
-    var senderId: String
-    var displayName: String
-}
-
-//will be deleted later
-class MessageDataProvider{
-    static func dataProvider() -> [Message]{
-        var array = [Message]()
-        array.append(Message(sender: ChatViewController.selfSender, messageId: "1", sentDate: Date(), kind: .text("Hello")))
-        array.append(Message(sender: ChatViewController.selfSender, messageId: "1", sentDate: Date(), kind: .text("hey")))
-        return array
-    }
-}
-
-
 class ChatViewController: MessagesViewController {
 
     private var message = [Message]()
@@ -76,3 +51,16 @@ extension ChatViewController : MessagesLayoutDelegate{
 extension ChatViewController : MessagesDisplayDelegate{
     
 }
+
+
+
+//will be deleted later
+class MessageDataProvider{
+    static func dataProvider() -> [Message]{
+        var array = [Message]()
+        array.append(Message(sender: ChatViewController.selfSender, messageId: "1", sentDate: Date(), kind: .text("Hello")))
+        array.append(Message(sender: ChatViewController.selfSender, messageId: "1", sentDate: Date(), kind: .text("hey")))
+        return array
+    }
+}
+
