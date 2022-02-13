@@ -69,4 +69,6 @@ struct ChatAppUser{
     var profilePictureURL: String {
         return "\(sefeEmail)_profile_picture.png"
     }
+    
+    
 }

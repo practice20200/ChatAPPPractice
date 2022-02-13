@@ -14,18 +14,20 @@ final class StorageManager {
     
     public typealias UPloadPictureCompletion = (Result< String, Error >)  -> Void
     public func uploadProfilePicture(with data : Data, fileName: String, completion: @escaping UPloadPictureCompletion){
-        storage.child("images\(fileName)").putData(data, metadata: nil, completion:{
+
+        storage.child("images/" + fileName).putData(data, metadata: nil, completion:{
             metadata, error in
-            
+            print("fileName: \(fileName)")
             guard error == nil else {
                 print("failed to upload data to firebase for picture.")
-                completion(.failure(StrageErrors.failedToGetDownloadUrl))
+                completion(.failure(StorageErrors.failedToGetDownloadUrl))
                 return
             }
-            self.storage.child("image\(fileName)").downloadURL(completion: { url, error in
+            print("succeeded in uploading a picture")
+            self.storage.child("images/" + fileName).downloadURL(completion: { url, error in
                 guard let url = url else {
                     print("failed to get download url.")
-                    completion(.failure(StrageErrors.failedToGetDownloadUrl))
+                    completion(.failure(StorageErrors.failedToGetDownloadUrl))
                     return
                             
                 }
@@ -37,11 +39,21 @@ final class StorageManager {
  
     }
     
-    public enum StrageErrors: Error {
+    public enum StorageErrors: Error {
         case failedToUpload
         case failedToGetDownloadUrl
     }
 
-    
+    public func downloadURL(for path: String, completion: @escaping(Result<URL, Error>) -> Void){
+        storage.child(path).downloadURL { url, error in
+            guard let url = url, error == nil else{
+                completion(.failure(StorageErrors.failedToGetDownloadUrl))
+                return
+            }
+            completion(.success(url))
+        }
+        
+        
+    }
 }
 
