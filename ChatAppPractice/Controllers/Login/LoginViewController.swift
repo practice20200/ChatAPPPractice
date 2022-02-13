@@ -181,15 +181,17 @@ class LoginViewController: UIViewController {
             }
             
             let user = result.user
+            
+            UserDefaults.standard.set(email, forKey: "email")
+            
             print("==================logged in successfully with this user: \(user)=================")
             
             strongSelf.navigationController?.dismiss(animated: true,completion: nil)
             
         }
         
-        
-//        let vc = ConversationViewController()
-//        self.navigationController?.pushViewController(vc, animated: true)
+            
+
     }
     
 
@@ -245,6 +247,8 @@ extension LoginViewController : UITextFieldDelegate{
 //            let firstName = nameComponents[0]
 //            let lastName = nameComponents[1]
 //            let userName = firstName + lastName
+
+//UserDefaults.standard.set(email, forKey: "email")
 //            DatabaseManger.shared.userExists(with: email) { exists in
 //                if !exists{
 //                    let chatUser = ChatAppUser(userName: userName, email: email)
