@@ -9,6 +9,7 @@ import UIKit
 import Elements
 import FirebaseAuth
 import JGProgressHUD
+
 //import FBSDKKit
 
 class LoginViewController: UIViewController {
@@ -221,7 +222,7 @@ extension LoginViewController : UITextFieldDelegate{
 //            return
 //        }
 //        let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me"
-//                                                         parameters: ["friends": "email, name"],
+//                                                         parameters: ["friends": "email, name, picture.type(large)"],
 //                                                         tokenString: token,
 //                                                         version: nil,
 //                                                         httpMethod: .get)
@@ -231,6 +232,8 @@ extension LoginViewController : UITextFieldDelegate{
 //                print("Failed to make facebook graph request.")
 //                return
 //            }
+
+//
 //
 //            guard let userName = result["name"] as? String,
 //            let email = result["email"] as? String else{
@@ -244,7 +247,30 @@ extension LoginViewController : UITextFieldDelegate{
 //            let userName = firstName + lastName
 //            DatabaseManger.shared.userExists(with: email) { exists in
 //                if !exists{
-//                    DatabaseManager.shared.insertUser(with: ChatAppUser(userName: userName, email: email))
+//                    let chatUser = ChatAppUser(userName: userName, email: email)
+                        //DatabaseManager.shared.insertUser(with: ChatAppUser(userName: userName, email: email){
+                        //    success in
+                        //    if success {
+//                guard let url = URL(string: pictureURL) else { return }
+//                URLSession.shared.dataTask(with: url) { data , _ , _ in
+//                    guard let data = data else ( return )
+//                }
+
+
+
+                        //        let fileName = chatUser.profilePictureURL
+                        //        StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { result in
+                        //            switch result {
+                        //            case .success(let downloadUrl):
+                        //                UserDefaults.standard.setValue(downloadUrl, forKey: "profile_picture_url")
+                        //                print(downloadUrl)
+                        //            case .failure(let error):
+                        //                print("Storage manager error: \(error)")
+                        //            }
+                        //        }
+                        //    }
+                        //})
+//}
 //                }
 //            }
 //

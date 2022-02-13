@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseDatabase
+import UIKit
 
 final class DatabaseManager {
     static let shared = DatabaseManager()
@@ -35,8 +36,15 @@ extension DatabaseManager{
        
     }
     
-    public func insertUser(with user : ChatAppUser){
-        database.child(user.sefeEmail).setValue(["user name": user.userName])
+    public func insertUser(with user : ChatAppUser, completion: @escaping (Bool) -> Void){
+        database.child(user.sefeEmail).setValue(["user name": user.userName]) { error, _ in
+            guard error == nil else{
+                print("failed to write to database")
+                completion(false)
+                return
+            }
+            completion(true)
+        }
     }
     
     
@@ -46,11 +54,15 @@ extension DatabaseManager{
 struct ChatAppUser{
     var userName: String
     var email: String
-    //var profilePictureURL: String
+    
     
     var sefeEmail: String{
         var safeEmail = email.replacingOccurrences(of: ".", with: "-")
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
         return safeEmail
+    }
+    
+    var profilePictureURL: String {
+        return "\(sefeEmail)_profile_picture.png"
     }
 }
