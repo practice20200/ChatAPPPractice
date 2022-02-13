@@ -38,6 +38,7 @@
 		B3E02BA027B3727000ADA9F4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B3E02B9F27B3726F00ADA9F4 /* FirebaseStorage */; };
 		B3E02BA227B3738400ADA9F4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B3E02BA127B3738300ADA9F4 /* GoogleService-Info.plist */; };
 		B3E02BA427B3915700ADA9F4 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E02BA327B3915600ADA9F4 /* DatabaseManager.swift */; };
+		B3EDD39327B8B5340020FA83 /* StrageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EDD39227B8B5340020FA83 /* StrageManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		B3E02B8A27B0577500ADA9F4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		B3E02BA127B3738300ADA9F4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B3E02BA327B3915600ADA9F4 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		B3EDD39227B8B5340020FA83 /* StrageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 		B3E02B7D27B054F200ADA9F4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B3EDD39227B8B5340020FA83 /* StrageManager.swift */,
 				B3E02B6827B0549C00ADA9F4 /* SceneDelegate.swift */,
 				B3E02B6627B0549C00ADA9F4 /* AppDelegate.swift */,
 				B3E02BA327B3915600ADA9F4 /* DatabaseManager.swift */,
@@ -304,6 +307,7 @@
 				B3E02B8227B0569F00ADA9F4 /* LoginViewController.swift in Sources */,
 				B3E02B8027B0566B00ADA9F4 /* RegisterViewController.swift in Sources */,
 				B34BF20C27B7127A004BF3DA /* Message.swift in Sources */,
+				B3EDD39327B8B5340020FA83 /* StrageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
