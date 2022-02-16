@@ -14,7 +14,7 @@ class ProfileViewController: UIViewController {
     
     //==================== Elements =====================
     @IBOutlet var tableView: UITableView!
-    let data = ["Cnage profilePicture", "Log out", "Delete account"]
+    let sectionData = ["Cnage profilePicture", "Log out", "Delete account"]
     
     
     
@@ -89,47 +89,51 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController : UITableViewDelegate{
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if sectionData[indexPath.row] == "Log out" {
+            print("koko: \(sectionData[indexPath.row])")
+            logOutHandler()
+        }
+    }
+    
+    func logOutHandler(){
+        let alertView = UIAlertController(title: "Log out", message: "would you like to log out?", preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Yes", style: .default) {[weak self] _ in
             
-            let alertView = UIAlertController(title: "Log out", message: "would you like to log out?", preferredStyle: .alert)
-            let yesAction = UIAlertAction(title: "Yes", style: .default) {[weak self] _ in
-                
-                guard let strongSelf = self else{
-                    return
-                }
-                
-//                FBSDKLoginKit.LoginManager().logOut()
-                
-                do{
-                    try FirebaseAuth.Auth.auth().signOut()
-                    
-                    let vc = LoginViewController()
-                    let nav = UINavigationController(rootViewController: vc)
-                    nav.modalPresentationStyle = .fullScreen
-                    strongSelf.present(nav, animated: true)
-                }catch{
-                    print("Failed to log out")
-                }
+            guard let strongSelf = self else{
+                return
             }
-            let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+//                FBSDKLoginKit.LoginManager().logOut()
             
-            alertView.addAction(yesAction)
-            alertView.addAction(noAction)
-            present(alertView, animated: true)
-            
+            do{
+                try FirebaseAuth.Auth.auth().signOut()
+                
+                let vc = LoginViewController()
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                strongSelf.present(nav, animated: true)
+            }catch{
+                print("Failed to log out")
+            }
+        }
+        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        
+        alertView.addAction(yesAction)
+        alertView.addAction(noAction)
+        present(alertView, animated: true)
         
     }
 }
 
 extension ProfileViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return sectionData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.row]
+        cell.textLabel?.text = sectionData[indexPath.row]
        // let item = data[indexPath.row]
         
         cell.textLabel?.textColor = .red
