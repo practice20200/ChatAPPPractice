@@ -169,7 +169,6 @@ class LoginViewController: UIViewController {
         
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) {[weak self] authResult, error in
             guard let strongSelf = self else { return }
-            
             DispatchQueue.main.async {
                 strongSelf.spinner.dismiss()
             }

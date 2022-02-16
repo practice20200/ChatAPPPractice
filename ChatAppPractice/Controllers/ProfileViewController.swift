@@ -28,11 +28,20 @@ class ProfileViewController: UIViewController {
         tableView.tableHeaderView = createTableHeader()
      }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+//        tableView.frame = view.bounds
+    }
+    
     
     //==================== Functions =====================
     func createTableHeader() -> UIView?{
         print("test1")
-        guard let email = UserDefaults.standard.value(forKey: "email") as? String else {return nil}
+        guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
+            print("email was nil: ")
+            return nil
+            
+        }
     
         let safeEmail = DatabaseManager.sefeEmail(email: email)
         let fileName = safeEmail + "_profile_picture.png"
@@ -41,7 +50,7 @@ class ProfileViewController: UIViewController {
         let headerView = BaseUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 300))
         headerView.backgroundColor = .link
         
-        let imageView = BaseUIImageView(frame: CGRect(x: (headerView.bounds.width-150)/2, y: 75, width: 150, height: 150))
+        let imageView = BaseUIImageView(frame: CGRect(x: (headerView.frame.width-150)/2, y: 75, width: 150, height: 150))
         imageView.contentMode = .scaleAspectFill
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.layer.borderWidth = 3
