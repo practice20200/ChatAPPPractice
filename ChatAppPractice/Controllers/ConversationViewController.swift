@@ -17,6 +17,7 @@ class ConversationViewController: UIViewController {
     ////===================== elements ======================
     private let spinner = JGProgressHUD(style: .dark)
     
+    
     lazy var tableView : UITableView = {
         let table = UITableView()
         table.isHidden = true
@@ -89,8 +90,25 @@ class ConversationViewController: UIViewController {
     //===================== Buttons ======================
     @objc func composeHandler(){
         let vc = NewConversationViewController()
+        vc.completion = { [weak self] result in
+            //print("\(result)")
+            self?.createrNewConversation(result: result)
+        }
         let navVC = UINavigationController(rootViewController: vc)
         present(navVC, animated: true)
+    }
+    
+    private func createrNewConversation( result: [String:String]){
+        
+        guard let name = result["name"], let email = result["email"] else{
+            return
+        }
+        
+        let vc = ChatViewController(with: "@yahooo.coom")
+        vc.isNewConversation = true
+        vc.title = name
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -113,10 +131,7 @@ extension ConversationViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let vc = ChatViewController()
-        vc.title = "Jenny Smith"
-        vc.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(vc, animated: true)
+       
     }
 
 }

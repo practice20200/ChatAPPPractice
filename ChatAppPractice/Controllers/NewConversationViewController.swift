@@ -11,7 +11,7 @@ import Elements
 import JGProgressHUD
 
 class NewConversationViewController: UIViewController {
-    
+    public var completion: (([String:String]) -> Void)?
     private let spinner = JGProgressHUD(style: .dark)
     private var users = [[String: String]]()
     private var hasFetched = false
@@ -77,6 +77,10 @@ class NewConversationViewController: UIViewController {
 
 extension NewConversationViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let targetUserData = results[indexPath.row]
+        dismiss(animated: true) { [weak self] in
+            self?.completion?(targetUserData)
+        }
         
     }
 }
@@ -91,7 +95,6 @@ extension NewConversationViewController : UITableViewDataSource{
         cell.textLabel?.text = results[indexPath.row]["name"]
         return cell
     }
-    
     
 }
 

@@ -40,7 +40,6 @@ class ProfileViewController: UIViewController {
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
             print("email was nil: ")
             return nil
-            
         }
     
         let safeEmail = DatabaseManager.sefeEmail(email: email)
