@@ -42,7 +42,7 @@ class ProfileViewController: UIViewController {
             return nil
         }
     
-        let safeEmail = DatabaseManager.sefeEmail(email: email)
+        let safeEmail = DatabaseManager.safeEmail(email: email)
         let fileName = safeEmail + "_profile_picture.png"
         let path = "images/" + fileName
         

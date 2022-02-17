@@ -22,7 +22,7 @@ class ChatViewController: MessagesViewController {
     }
     
     init(with email: String){
-        self.otherUserEmail  = email
+        self.otherUserEmail  = DatabaseManager.safeEmail(email: email)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -63,7 +63,9 @@ extension  ChatViewController : InputBarAccessoryViewDelegate{
             let message = Message(sender: selfSender, messageId: messageId, sentDate: Date(), kind: .text(text))
             DatabaseManager.shared.createNewConversation(with: otherUserEmail, firstMessage: message) { success in
                 if success {
-                    print("message")
+                    print("message is sent successfully")
+                } else{
+                    print("failed to send a message")
                 }
             }
         }else{
@@ -72,9 +74,11 @@ extension  ChatViewController : InputBarAccessoryViewDelegate{
     }
     
     private func createMessageId() -> String? {
+        
+        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else { return nil}
+        let safeCurrenEmail = DatabaseManager.safeEmail(email: currentUserEmail)
         let dateString = DateFormatters.dateFormattersChatView(date: Date())
-        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") else { return nil}
-        let newIdentifier = "\(otherUserEmail)_\(currentUserEmail)_\(dateString)"
+        let newIdentifier = "\(otherUserEmail)_\(safeCurrenEmail)_\(dateString)"
         print("created message id: \(newIdentifier)")
         return newIdentifier
     }
