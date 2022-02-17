@@ -15,10 +15,10 @@ struct Conversation{
     let id: String
     let name: String
     let otherUserEmail: String
-    let lastestMessage: LastMessage
+    let lastestMessage: LatestMessage
 }
 
-struct LastMessage{
+struct LatestMessage{
     let date: String
     let text: String
     let isRead: Bool
@@ -59,6 +59,7 @@ class ConversationViewController: UIViewController {
         view.addSubview(noConversationLabel)
         setUpTableView()
         fetchConverssations()
+        startListeningForConversations()
         
         let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(composeHandler))
         self.navigationItem.rightBarButtonItem = composeButton
@@ -93,6 +94,10 @@ class ConversationViewController: UIViewController {
                     return
                 }
                 self?.conversations = conversations
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
             case .failure(let error):
                 print("failed to get conversations: \(error)")
             }
@@ -145,24 +150,39 @@ class ConversationViewController: UIViewController {
 
 
 extension ConversationViewController : UITableViewDelegate {
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let item = conversations[indexPath.row
+        ]
+        let vc = ChatViewController(with: item.otherUserEmail)
+        vc.title = item.name
+        vc.navigationController?.pushViewController(vc, animated: true)
+       
+    }
 }
 
 extension ConversationViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "Hello wWorld"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ConversationTableCell
+        let item = conversations[indexPath.row]
+////        cell.userImageView.image =
+//        cell.userNameLabel.text = item.name
+//        cell.userMessageLabel.text = item.lastestMessage.text
+      
+        
+        cell.updateView(image: UIImage(named:""), name: item.name, message: item.lastestMessage.text)
+        
+        
         cell.accessoryType = .disclosureIndicator
         return cell
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-       
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
     }
 
 }
