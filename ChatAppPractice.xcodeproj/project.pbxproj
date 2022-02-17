@@ -19,6 +19,7 @@
 		B34BF20927B70E51004BF3DA /* NewConversationViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BF20827B70E51004BF3DA /* NewConversationViewCell.swift */; };
 		B34BF20C27B7127A004BF3DA /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BF20B27B7127A004BF3DA /* Message.swift */; };
 		B34BF20F27B712BB004BF3DA /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BF20E27B712BB004BF3DA /* Sender.swift */; };
+		B3DD1AEA27BDCC4A00A7EF3A /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DD1AE927BDCC4A00A7EF3A /* DateFormatters.swift */; };
 		B3E02B6727B0549C00ADA9F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E02B6627B0549C00ADA9F4 /* AppDelegate.swift */; };
 		B3E02B6927B0549C00ADA9F4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E02B6827B0549C00ADA9F4 /* SceneDelegate.swift */; };
 		B3E02B6B27B0549C00ADA9F4 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E02B6A27B0549C00ADA9F4 /* ConversationViewController.swift */; };
@@ -47,6 +48,7 @@
 		B34BF20827B70E51004BF3DA /* NewConversationViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewCell.swift; sourceTree = "<group>"; };
 		B34BF20B27B7127A004BF3DA /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B34BF20E27B712BB004BF3DA /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
+		B3DD1AE927BDCC4A00A7EF3A /* DateFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
 		B3E02B6327B0549C00ADA9F4 /* ChatAppPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatAppPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E02B6627B0549C00ADA9F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3E02B6827B0549C00ADA9F4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +107,14 @@
 				B34BF20E27B712BB004BF3DA /* Sender.swift */,
 			);
 			path = ChatViewController;
+			sourceTree = "<group>";
+		};
+		B3DD1AE827BDCC2A00A7EF3A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B3DD1AE927BDCC4A00A7EF3A /* DateFormatters.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		B3E02B5A27B0549C00ADA9F4 = {
@@ -171,6 +181,7 @@
 		B3E02B7D27B054F200ADA9F4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B3DD1AE827BDCC2A00A7EF3A /* Utils */,
 				B3EDD39227B8B5340020FA83 /* StrageManager.swift */,
 				B3E02B6827B0549C00ADA9F4 /* SceneDelegate.swift */,
 				B3E02B6627B0549C00ADA9F4 /* AppDelegate.swift */,
@@ -302,6 +313,7 @@
 				B34BF20927B70E51004BF3DA /* NewConversationViewCell.swift in Sources */,
 				B3E02B8727B0575100ADA9F4 /* VideoPlayerViewController.swift in Sources */,
 				B3E02B8527B056F800ADA9F4 /* PhotoViewrViewController.swift in Sources */,
+				B3DD1AEA27BDCC4A00A7EF3A /* DateFormatters.swift in Sources */,
 				B34BF20727B6FF59004BF3DA /* ConversationTableViewCell.swift in Sources */,
 				B3E02B8B27B0577500ADA9F4 /* ProfileViewController.swift in Sources */,
 				B3E02B8227B0569F00ADA9F4 /* LoginViewController.swift in Sources */,
