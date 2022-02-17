@@ -251,7 +251,7 @@ extension DatabaseManager {
     
     
     // Fetch and return all conversation for user with passed in email
-    public func getAllConversations(for email: String, completion: @escaping (Result<String, Error>) -> Void){
+    public func getAllConversations(for email: String, completion: @escaping (Result<[Conversation], Error>) -> Void){
         
     }
     

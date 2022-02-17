@@ -11,12 +11,24 @@ import Elements
 import JGProgressHUD
 import SwiftUI
 
+struct Conversation{
+    let id: String
+    let name: String
+    let otherUserEmail: String
+    let lastestMessage: LastMessage
+}
+
+struct LastMessage{
+    let date: String
+    let text: String
+    let isRead: Bool
+}
 
 class ConversationViewController: UIViewController {
 
     ////===================== elements ======================
     private let spinner = JGProgressHUD(style: .dark)
-    
+    private var conversations = [Conversation]()
     
     lazy var tableView : UITableView = {
         let table = UITableView()
@@ -68,6 +80,25 @@ class ConversationViewController: UIViewController {
     
     
     //===================== functions ======================
+    
+    private func startListeningForConversations(){
+        guard let email = UserDefaults.standard.value(forKey: "email") as? String else{ return }
+        
+        let safeEmail = DatabaseManager.safeEmail(email: email)
+        //to prevent memory cicle weak self when tableView is reloaded
+        DatabaseManager.shared.getAllConversations(for: safeEmail) { [weak self] result in
+            switch result {
+            case .success(let conversations):
+                guard !conversations.isEmpty else {
+                    return
+                }
+                self?.conversations = conversations
+            case .failure(let error):
+                print("failed to get conversations: \(error)")
+            }
+        }
+    }
+    
     private func validateAuth(){
         if FirebaseAuth.Auth.auth().currentUser == nil {
             let vc = LoginViewController()
