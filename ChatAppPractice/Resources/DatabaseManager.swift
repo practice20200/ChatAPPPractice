@@ -104,7 +104,7 @@ extension DatabaseManager{
 
 extension DatabaseManager {
     // Create a new conversation with target user email and first message sent
-    public func createNewConversation(with otherUserEmail: String, firstMessage: Message, completion: @escaping (Bool) -> Void){
+    public func createNewConversation(with otherUserEmail: String, name: String ,firstMessage: Message, completion: @escaping (Bool) -> Void){
         guard let currentEmail = UserDefaults.standard.value(forKey: "email") as? String else {
             print("check1")
             return
@@ -150,6 +150,7 @@ extension DatabaseManager {
                 let newConversationData : [String: Any] = [
                     "id" : conversationID,
                     "other_user_email" : otherUserEmail,
+                    "name": name,
                     "last_message" : [
                         "date" : DateFormatters.dateFormattersChatView(date: messageDate),
                         "message": message,
@@ -167,7 +168,7 @@ extension DatabaseManager {
                         return
                     }
                     print("check7")
-                    self?.finishCreatingConversation(conversationID: conversationID, firstMessage: firstMessage, completion: completion)
+                    self?.finishCreatingConversation(name: name, conversationID: conversationID, firstMessage: firstMessage, completion: completion)
                     completion(true)
                     
                 }
@@ -181,14 +182,14 @@ extension DatabaseManager {
                         completion(false)
                         return
                     }
-                    self?.finishCreatingConversation(conversationID: conversationID, firstMessage: firstMessage, completion: completion)
+                    self?.finishCreatingConversation(name:name,conversationID: conversationID, firstMessage: firstMessage, completion: completion)
                     completion(true)
                 }
             }
         }
         print("check9")
     }
-    private func finishCreatingConversation(conversationID: String, firstMessage: Message, completion: @escaping(Bool) -> Void){
+    private func finishCreatingConversation(name: String, conversationID: String, firstMessage: Message, completion: @escaping(Bool) -> Void){
         
         let messageDate = firstMessage.sentDate
         var message = ""
@@ -224,6 +225,7 @@ extension DatabaseManager {
         let currentUserEmail = DatabaseManager.safeEmail(email: myEmail)
         
         let collectionMessage: [String: Any] = [
+            "name": name,
             "id": firstMessage.messageId,
             "type": firstMessage.kind.messageKindString,
             "content":message,
