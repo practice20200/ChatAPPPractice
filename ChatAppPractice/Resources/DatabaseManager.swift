@@ -33,7 +33,7 @@ extension DatabaseManager{
         database.child(safeEmail).observeSingleEvent(of: .value, with: { snapshot in
             guard snapshot.value as? String != nil else {
                 completion(false)
-                print("Error: this user already exists.")
+                print("This user doesn't exsit. You can create a new user.")
                 return
             }
             completion(true)
@@ -260,7 +260,7 @@ extension DatabaseManager {
         ]
         
         let value : [String: Any] = [
-            "message" : [
+            "messages" : [
                 collectionMessage
             ]
         ]

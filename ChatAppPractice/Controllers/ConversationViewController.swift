@@ -138,7 +138,7 @@ class ConversationViewController: UIViewController {
     private func createrNewConversation( result: [String:String]){
         
         guard let name = result["name"], let email = result["email"] else{ return }
-        
+        print(" reate new Conversation is OK")
         let vc = ChatViewController(with: email, id: nil)
         vc.isNewConversation = true
         vc.title = name

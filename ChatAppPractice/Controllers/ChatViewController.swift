@@ -13,6 +13,14 @@ import SwiftUI
 class ChatViewController: MessagesViewController {
 
     //========= Elements ===============
+    public static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .long
+        formatter.locale = .current
+        return formatter
+    }()
+    
     public var isNewConversation = false
     public let otherUserEmail: String
     private let conversationID : String?
@@ -62,7 +70,6 @@ class ChatViewController: MessagesViewController {
             listenForMessages(id: conversationID, shouldScrollToButtom: true)
         }
     }
-    
     // ================= Functions =============
     private func listenForMessages(id: String, shouldScrollToButtom: Bool){
         DatabaseManager.shared.getAllMessagesForConversation(with: id) { [weak self] result in
@@ -89,10 +96,10 @@ class ChatViewController: MessagesViewController {
 
 extension  ChatViewController : InputBarAccessoryViewDelegate{
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        guard !text.replacingOccurrences(of: "", with: " ").isEmpty,
-              let messageId = createMessageId(),
-              let selfSender = self.selfSender
-        else {
+        guard !text.replacingOccurrences(of: " ", with: "").isEmpty,
+            let selfSender = self.selfSender,
+                let messageId = createMessageId() else
+        {
             print("====error: textField is empty====")
             return
         }
@@ -115,7 +122,12 @@ extension  ChatViewController : InputBarAccessoryViewDelegate{
     
     private func createMessageId() -> String? {
         
-        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else { return nil}
+        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else {
+            print("let dateString = Self.dateFormatter.string(from: Date()) is nil")
+            return "ddd"
+            
+        }
+        print("GOOD")
         let safeCurrenEmail = DatabaseManager.safeEmail(email: currentUserEmail)
         let dateString = DateFormatters.dateFormattersChatView(date: Date())
         let newIdentifier = "\(otherUserEmail)_\(safeCurrenEmail)_\(dateString)"

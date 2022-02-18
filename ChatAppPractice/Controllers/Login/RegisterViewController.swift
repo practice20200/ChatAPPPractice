@@ -184,6 +184,9 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    
+    
+    
     @objc func loginHandler(){
         userNameTF.resignFirstResponder()
         emailTF.resignFirstResponder()
@@ -196,22 +199,27 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
                       return
         }
         
-        spinner.show(in: view)
         
+        
+
+        print("1111111")
+        spinner.show(in: view)
+        print("2222222")
         DatabaseManager.shared.userExists(with: email, completion: {[weak self] exists in
             guard let strongSelf = self else { return }
-            
+            print("3333333")
             DispatchQueue.main.async {
+                print("444444")
                 strongSelf.spinner.dismiss()
             }
-            
+            print("exsists:        \(exists)")
             guard !exists else{
                 strongSelf.errorAlert(message: "Error: This user already exists.")
                 print("user already exists.")
                 return
             }
 
-            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) {   authResult, error in
                
                 guard authResult != nil, error == nil else{
                     print("Error occured")

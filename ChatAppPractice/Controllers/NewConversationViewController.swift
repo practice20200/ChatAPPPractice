@@ -103,13 +103,14 @@ extension NewConversationViewController : UITableViewDataSource{
 
 extension NewConversationViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text, !text.replacingOccurrences(of: " ", with: "").isEmpty else{ return}
+        guard let text = searchBar.text, !text.replacingOccurrences(of: " ", with: "").isEmpty else{ return }
         results.removeAll()
         spinner.show(in: view)
         
         searchBar.resignFirstResponder()
         
         self.serachUsers(query: text)
+        print("you found your friend successfully")
     }
     func serachUsers(query: String){
         if hasFetched{
