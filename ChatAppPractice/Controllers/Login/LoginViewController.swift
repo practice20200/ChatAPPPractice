@@ -180,8 +180,21 @@ class LoginViewController: UIViewController {
             }
             
             let user = result.user
-            
+            let safeEmail = DatabaseManager.safeEmail(email: email)
+            DatabaseManager.shared.getDataFor(path: safeEmail) { result in
+                switch result {
+                case .success(let data):
+                    guard let userData = data as? [String: Any],
+                            let name = userData["name"] else{ return }
+
+                    UserDefaults.standard.set(name, forKey: "emmail")
+                case .failure(let error):
+                    print("Failed to read data with error \(error)")
+                    
+                }
+            }
             UserDefaults.standard.set(email, forKey: "email")
+            
             
             print("==================logged in successfully with this user: \(user)=================")
             
@@ -248,6 +261,8 @@ extension LoginViewController : UITextFieldDelegate{
 //            let userName = firstName + lastName
 
 //UserDefaults.standard.set(email, forKey: "email")
+
+//UserDefaults.standard.set(name, forKey: "name")
 //            DatabaseManger.shared.userExists(with: email) { exists in
 //                if !exists{
 //                    let chatUser = ChatAppUser(userName: userName, email: email)
