@@ -61,6 +61,7 @@ class ConversationViewController: UIViewController {
         fetchConverssations()
         startListeningForConversations()
         
+        
         let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(composeHandler))
         self.navigationItem.rightBarButtonItem = composeButton
     }
@@ -136,11 +137,9 @@ class ConversationViewController: UIViewController {
     
     private func createrNewConversation( result: [String:String]){
         
-        guard let name = result["name"], let email = result["email"] else{
-            return
-        }
+        guard let name = result["name"], let email = result["email"] else{ return }
         
-        let vc = ChatViewController(with: "@yahooo.coom")
+        let vc = ChatViewController(with: email, id: nil)
         vc.isNewConversation = true
         vc.title = name
         vc.navigationItem.largeTitleDisplayMode = .never
@@ -152,9 +151,9 @@ class ConversationViewController: UIViewController {
 extension ConversationViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let item = conversations[indexPath.row
-        ]
-        let vc = ChatViewController(with: item.otherUserEmail)
+        let item = conversations[indexPath.row]
+        
+        let vc = ChatViewController(with: item.otherUserEmail, id: item.id)
         vc.title = item.name
         vc.navigationController?.pushViewController(vc, animated: true)
        

@@ -49,7 +49,7 @@ extension DatabaseManager{
                 return
             }
             
-            self.database.child("users").observeSingleEvent(of: .value) { snapshot in
+            self.database.child("users").observeSingleEvent(of: .value) {[weak self] snapshot in
                 if var usersCollection = snapshot.value as? [[String: String]]{
                     //append to user dictionary
                     let newElement = [
@@ -57,7 +57,7 @@ extension DatabaseManager{
                          "email": user.email
                     ]
                     usersCollection.append(newElement)
-                    self.database.child("users").setValue(usersCollection) { error, _ in
+                    self?.database.child("users").setValue(usersCollection) { error, _ in
                         guard error == nil else {
                             completion(false)
                             return
@@ -71,7 +71,7 @@ extension DatabaseManager{
                         ["name": user.userName,
                          "email": user.email]
                     ]
-                    self.database.child("users").setValue(newCollection) { error, _ in
+                    self?.database.child("users").setValue(newCollection) { error, _ in
                         guard error == nil else {
                             completion(false)
                             return
@@ -113,14 +113,18 @@ extension DatabaseManager {
         print("check2")
         let safeEmail = DatabaseManager.safeEmail(email: currentEmail)
         let ref = database.child("\(safeEmail)")
-        database.child("\(safeEmail)").observeSingleEvent(of: .value) { snapshot in
+        ref.observeSingleEvent(of: .value) { snapshot in
             guard var userNode = snapshot.value as? [String: Any] else {
+                completion(false)
                 print("check3")
                 print("user is not found")
                 return
             }
             print("check4")
+            let messageDate = firstMessage.sentDate
             var message = ""
+            let dateString = DateFormatters.dateFormattersChatView(date: messageDate)
+
             switch firstMessage.kind{
                
             case .text(let messageText):
@@ -146,17 +150,38 @@ extension DatabaseManager {
             }
             
                 let conversationID = "conversation_\(firstMessage.messageId)"
-                let messageDate = firstMessage.sentDate
+                
                 let newConversationData : [String: Any] = [
                     "id" : conversationID,
                     "other_user_email" : otherUserEmail,
                     "name": name,
                     "last_message" : [
-                        "date" : DateFormatters.dateFormattersChatView(date: messageDate),
+                        "date" : dateString,
                         "message": message,
                         "is_read": false
                     ]
                 ]
+            
+            let recipient_newConversationData : [String: Any] = [
+                "id" : conversationID,
+                "other_user_email" : safeEmail,
+                "name": "Self",
+                "last_message" : [
+                    "date" : dateString,
+                    "message": message,
+                    "is_read": false
+                ]
+            ]
+            
+            self.database.child("\(otherUserEmail)/conversations").observeSingleEvent(of: .value, with: { [weak self] snapshot in
+                if var conversations = snapshot.value as? [[String: Any]] {
+                    conversations.append(recipient_newConversationData)
+                    self?.database.child("\(otherUserEmail)/conversations").setValue(conversationID)
+                }else{
+                    self?.database.child("\(otherUserEmail)/conversations").setValue([recipient_newConversationData])
+                }
+            })
+            
             print("check5")
             if var conversations = userNode["conversations"] as? [[String: Any]] {
                 conversations.append(newConversationData)
@@ -267,7 +292,7 @@ extension DatabaseManager {
                       let isRead = latestMessage["is_read"] as? Bool else {
                           print("no")
                           return nil }
-                
+
                 print("Success reading Conversation data")
                 let latestMessageObject = LatestMessage(date: date, text: message, isRead: isRead)
                 return Conversation(id: conversationId, name: name, otherUserEmail: otherUserEmail, lastestMessage: latestMessageObject)
@@ -278,7 +303,32 @@ extension DatabaseManager {
     }
     
     // Get all message for a given conversation
-    public func getAllMessagesForConversation(with id: String, completion: @escaping(Result<String, Error>) -> Void){
+    public func getAllMessagesForConversation(with id: String, completion: @escaping(Result<[Message], Error>) -> Void){
+        
+        database.child("\(id)/messages").observe(.value, with: { snapshot in
+            guard let value = snapshot.value as? [[String: Any]] else{
+                completion(.failure(DatabaseError.failedToFetch))
+                return
+            }
+            let messages: [Message] = value.compactMap { dictionary in
+                guard let name = dictionary["name"] as? String,
+                      let isRead = dictionary["is_read"] as? Bool,
+                      let messageID = dictionary["id"] as? String,
+                      let content = dictionary["content"] as? String,
+                      let senderEmail = dictionary["sender_email"] as? String,
+                      let type = dictionary["type"] as? String,
+                      let dateString = dictionary["date"] as? String
+                      // let date = DateFormatters.dateFormattersChatView(date: Date())
+                else {
+                          return nil
+                      }
+                let sender = Sender(photpURL: "", senderId: senderEmail, displayName: name)
+                
+                return Message(sender: sender, messageId: messageID, sentDate: Date(), kind: .text(content))
+                
+            }
+            completion(.success(messages))
+        })
         
     }
     
@@ -287,6 +337,7 @@ extension DatabaseManager {
         
     }
 }
+
 
 
 struct ChatAppUser{
@@ -306,3 +357,21 @@ struct ChatAppUser{
     
     
 }
+
+
+//let conversations: [Conversation] = value.compactMap { dictionary in
+//    guard let conversationId = dictionary ["id"] as? String,
+//          let name = dictionary["name"] as? String,
+//          let otherUserEmail = dictionary["other_user_email"] as? String,
+//          let latestMessage = dictionary["latest_message"] as? [String: Any],
+//          let date = latestMessage["date"] as? String,
+//          let message = latestMessage["message"] as? String,
+//          let isRead = latestMessage["is_read"] as? Bool else {
+//              print("no")
+//              return nil }
+//
+//    print("Success reading Conversation data")
+//    let latestMessageObject = LatestMessage(date: date, text: message, isRead: isRead)
+//    return Conversation(id: conversationId, name: name, otherUserEmail: otherUserEmail, lastestMessage: latestMessageObject)
+//}
+//completion(.success(conversations))
