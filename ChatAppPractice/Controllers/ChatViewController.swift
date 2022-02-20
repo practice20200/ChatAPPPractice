@@ -92,6 +92,61 @@ class ChatViewController: MessagesViewController {
             }
         }
     }
+    
+    private func setupInputButton(){
+        let button = InputBarButtonItem()
+        button.setSize(CGSize(width:35, height: 35), animated: false)
+        button.setImage(UIImage(systemName: "paperClip"), for: .normal)
+        button.onTouchUpInside { [weak self] _  in
+            self?.presentInputActionSheet()
+        }
+            messageInputBar.setLeftStackViewWidthConstant(to: 36, animated: false)
+            messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
+        
+    }
+    
+    
+    
+    
+    private func presentInputActionSheet(){
+        let actionSheet = UIAlertController(title: "Attach Media", message: "What would you to attach?", preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "Photo", style: .default, handler: { [weak self] _ in
+            self?.presentPhotoInputActionSheet()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Video", style: .default, handler: { _ in
+            
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Audio", style: .default, handler: { _ in
+            
+        }))
+//
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(actionSheet, animated: true)
+    }
+    
+    private func presentPhotoInputActionSheet(){
+        let actionSheet = UIAlertController(title: "Attach Photo", message: "Where would you to attach a photo from?", preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self] _ in
+            let picker = UIImagePickerController()
+            picker.sourceType = .camera
+            picker.delegate = self
+            picker.allowsEditing = true
+            self?.present(picker, animated: true)
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { [weak self] _ in
+            let picker = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.delegate = self
+            picker.allowsEditing = true
+            self?.present(picker, animated: true)
+        }))
+  
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(actionSheet, animated: true)
+    }
+    
 }
 
 extension  ChatViewController : InputBarAccessoryViewDelegate{
@@ -181,6 +236,35 @@ extension ChatViewController : MessagesDisplayDelegate{
 }
 
 
+extension ChatViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
+            let imageData = image.pngData(),
+        let messageId = createMessageId() else{
+            return
+        }
+        let fileName = "photo_message_" + messageId
+        StorageManager.shared.uploadMessagePhoto(with: imageData, fileName: fileName) {  result  in
+            switch result {
+            case .success(let urlString):
+                print("UPload Message Photo: \(urlString)")
+                break
+            case .failure(let error):
+                print("message photo upload error: \(error)")
+            }
+        }
+        
+    }
+}
+
+//extension ChatViewController : UINavigationControllerDelegate{
+//
+//}
 
 //will be deleted later
 //class MessageDataProvider{

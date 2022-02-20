@@ -29,6 +29,31 @@ final class StorageManager {
                     print("failed to get download url.")
                     completion(.failure(StorageErrors.failedToGetDownloadUrl))
                     return
+                }
+                let urlString = url.absoluteString
+               print("download url returned: \(urlString)")
+                completion(.success(urlString))
+        })
+    })
+ 
+    }
+    
+    public func uploadMessagePhoto(with data : Data, fileName: String, completion: @escaping UPloadPictureCompletion){
+
+        storage.child("message_images/" + fileName).putData(data, metadata: nil, completion:{
+            metadata, error in
+            print("fileName: \(fileName)")
+            guard error == nil else {
+                print("failed to upload data to firebase for picture.")
+                completion(.failure(StorageErrors.failedToGetDownloadUrl))
+                return
+            }
+            print("succeeded in uploading a picture")
+            self.storage.child("message_images/" + fileName).downloadURL(completion: { url, error in
+                guard let url = url else {
+                    print("failed to get download url.")
+                    completion(.failure(StorageErrors.failedToGetDownloadUrl))
+                    return
                             
                 }
                 let urlString = url.absoluteString
@@ -38,6 +63,8 @@ final class StorageManager {
     })
  
     }
+    
+    
     
     public enum StorageErrors: Error {
         case failedToUpload
