@@ -245,17 +245,34 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
         picker.dismiss(animated: true, completion: nil)
         guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
             let imageData = image.pngData(),
-        let messageId = createMessageId() else{
+            let messageID = createMessageId(),
+            let conversationID = conversationID,
+            let name = self.title,
+              let selfSnder = selfSender
+        else{
             return
         }
-        let fileName = "photo_message_" + messageId
-        StorageManager.shared.uploadMessagePhoto(with: imageData, fileName: fileName) {  result  in
+        let fileName = "photo_message_" + messageID.replacingOccurrences(of: " ", with: "-") + ".png"
+        StorageManager.shared.uploadMessagePhoto(with: imageData, fileName: fileName) { [weak self] result  in
+            guard let strongSelf = self else { return }
             switch result {
-            case .success(let urlString):
-                print("UPload Message Photo: \(urlString)")
-                break
-            case .failure(let error):
-                print("message photo upload error: \(error)")
+                case .success(let urlString):
+                    print("UPload Message Photo: \(urlString)")
+                    guard let url = URL(string: urlString),
+                          let placeholder = UIImage(systemName: "plus") else{ return }
+                    let media = Media(url: url, image: nil, placeholderImage: placeholder, size: .zero)
+                    let message = Message(sender: selfSnder, messageId: messageID, sentDate: Date(), kind: .photo(media))
+//
+                DatabaseManager.shared.sendMessage(to: conversationID, otherUserEmail: conversationID, name: name, newMessage: message) { success in
+                    if success {
+                        print("sent photo message")
+                    }else{
+                        print("failed to sand a photo messge")
+                    }
+                }
+//
+                case .failure(let error):
+                    print("message photo upload error: \(error)")
             }
         }
         
@@ -276,3 +293,10 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
 //    }
 //}
 
+
+struct Media : MediaItem {
+    var url: URL?
+    var image: UIImage?
+    var placeholderImage: UIImage
+    var size: CGSize
+}
