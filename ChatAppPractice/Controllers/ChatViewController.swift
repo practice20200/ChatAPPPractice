@@ -229,7 +229,7 @@ extension ChatViewController : MessagesDataSource{
         guard let message = message as? Message else { return }
         
         switch message.kind {
-        case .photo(let mesdia):
+        case .photo(let media):
             guard let imageUrl = media.url else { return }
             imageView.sd_setImage(with: imageUrl, completed: nil)
         default:
