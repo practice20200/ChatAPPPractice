@@ -61,7 +61,7 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesDisplayDelegate = self
         messageInputBar.delegate = self
         
-//        listenForMessages(id: <#String#>)
+        setupInputButton()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -96,7 +96,7 @@ class ChatViewController: MessagesViewController {
     private func setupInputButton(){
         let button = InputBarButtonItem()
         button.setSize(CGSize(width:35, height: 35), animated: false)
-        button.setImage(UIImage(systemName: "paperClip"), for: .normal)
+        button.setImage(UIImage(systemName: "paperclip"), for: .normal)
         button.onTouchUpInside { [weak self] _  in
             self?.presentInputActionSheet()
         }
