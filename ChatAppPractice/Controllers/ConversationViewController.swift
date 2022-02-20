@@ -85,13 +85,16 @@ class ConversationViewController: UIViewController {
     
     private func startListeningForConversations(){
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else{ return }
-        
+        print("check1=======")
         let safeEmail = DatabaseManager.safeEmail(email: email)
+        print("check2:  \(email)=======")
+        print("check2:  \(DatabaseManager.safeEmail(email: email))=======")
         //to prevent memory cicle weak self when tableView is reloaded
         DatabaseManager.shared.getAllConversations(for: safeEmail) { [weak self] result in
             switch result {
             case .success(let conversations):
                 guard !conversations.isEmpty else {
+                    print("check3=======")
                     return
                 }
                 self?.conversations = conversations
