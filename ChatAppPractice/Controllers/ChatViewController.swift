@@ -8,7 +8,8 @@
 import UIKit
 import MessageKit
 import InputBarAccessoryView
-import SwiftUI
+
+import SDWebImage
 
 class ChatViewController: MessagesViewController {
 
@@ -224,6 +225,17 @@ extension ChatViewController : MessagesDataSource{
         return messages.count // will be replaced with message.count
     }
     
+    func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        guard let message = message as? Message else { return }
+        
+        switch message.kind {
+        case .photo(let mesdia):
+            guard let imageUrl = media.url else { return }
+            imageView.sd_setImage(with: imageUrl, completed: nil)
+        default:
+            break
+        }
+    }
     
 }
 
