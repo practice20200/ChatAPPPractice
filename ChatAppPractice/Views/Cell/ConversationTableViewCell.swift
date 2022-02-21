@@ -7,6 +7,7 @@
 
 import UIKit
 import Elements
+import SDWebImage
 
 class ConversationTableCell :UITableViewCell {
     
@@ -66,6 +67,19 @@ class ConversationTableCell :UITableViewCell {
             contentStack.topAnchor.constraint(equalTo: contentView.topAnchor),
             contentStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
+        
+//        let path = "images/\(item.email)_profile_picture.png"
+//        StorageManager.shared.downloadURL(for: path) { [weak self] result  in
+//            switch result {
+//            case .success(let url):
+//                DispatchQueue.main.async {
+//                    cell.userImageView.sd_setImage(with: url, completed: nil)
+//                }
+//            case .failure(let error):
+//                print("failed to get image url: \(error)")
+//            }
+//        }
+        
     }
     
     func updateView(
@@ -80,17 +94,7 @@ class ConversationTableCell :UITableViewCell {
         
     }
     
-//    let path = "\(item.otherUserEmail)_profile_picture.png"
-//    StorageManager.shared.downloadURL(for: path) { [weak self] result  in
-//        switch result {
-//        case .success(let url):
-//            DispatchQueue.main.async {
-//                cell.userImageView.sd_setImage(with: url, completed: nil)
-//            }
-//        case .failure(let error):
-//            print("failed to get image url: \(error)")
-//        }
-//    }
+    
 
 }
 

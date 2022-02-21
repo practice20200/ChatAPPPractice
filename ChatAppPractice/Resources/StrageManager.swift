@@ -59,8 +59,8 @@ final class StorageManager {
                 let urlString = url.absoluteString
                print("download url returned: \(urlString)")
                 completion(.success(urlString))
+            })
         })
-    })
  
     }
     

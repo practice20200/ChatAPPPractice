@@ -11,11 +11,11 @@ import Elements
 import JGProgressHUD
 
 class NewConversationViewController: UIViewController {
-    public var completion: (([String:String]) -> Void)?
+    public var completion: ((SearchResult) -> Void)?
     private let spinner = JGProgressHUD(style: .dark)
     private var users = [[String: String]]()
     private var hasFetched = false
-    private var results = [[String: String]]()
+    private var results = [SearchResult]()
     
     lazy var searchBar : UISearchBar = {
         let searchBar = UISearchBar()
@@ -26,7 +26,7 @@ class NewConversationViewController: UIViewController {
     lazy var tableView : UITableView = {
         let table = UITableView()
         table.isHidden = true
-        table.register(NewConversationViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(NewConversationTableViewCell.self, forCellReuseIdentifier: "cell")
         table.backgroundColor = UIColor.systemGray6
         table.layer.shadowColor = UIColor.lightGray.cgColor
         table.layer.opacity = 0.8
@@ -91,11 +91,16 @@ extension NewConversationViewController : UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = results[indexPath.row]["name"]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NewConversationTableViewCell
+        let item = results[indexPath.row]
+        cell.textLabel?.text = results[indexPath.row].name
+        cell.configure(with: item)
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
+    }
 }
 
 
@@ -131,17 +136,19 @@ extension NewConversationViewController: UISearchBarDelegate {
     }
     
     func filterUsers(with term: String){
-        guard hasFetched else{
-            return
-        }
+        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String, hasFetched else{ return }
+        let safeEmail = DatabaseManager.safeEmail(email: currentUserEmail)
+        
         self.spinner.dismiss()
         
-        let results : [[String:String]] = self.users.filter({
-            guard let name = $0["name"]?.lowercased() else {
-                return false
-            }
+        let results : [SearchResult] = self.users.filter({
+            guard let email = $0["email"] ,email != safeEmail else{ return false }
+            guard let name = $0["name"]?.lowercased() else { return false }
             return  name.hasPrefix(term.lowercased())
-        })
+        }).compactMap { 
+            guard let email = $0["email"] ,let name = $0["name"] else { return nil }
+            return SearchResult(name: name, email: email)
+        }
         
         self.results = results
         updateUI()
@@ -157,4 +164,10 @@ extension NewConversationViewController: UISearchBarDelegate {
             self.tableView.reloadData()
         }
     }
+}
+
+
+struct SearchResult {
+    let name: String
+    let email: String
 }
