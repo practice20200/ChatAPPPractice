@@ -15,7 +15,7 @@ struct Conversation{
     let id: String
     let name: String
     var otherUserEmail: String
-    let lastestMessage: LatestMessage
+    let latestMessage: LatestMessage
 }
 
 struct LatestMessage{
@@ -63,7 +63,7 @@ class ConversationViewController: UIViewController {
         setUpTableView()
         fetchConverssations()
         startListeningForConversations()
-        
+        print("the number of current conversations (conversations.count): \(conversations.count)")
         
         loginObserver = NotificationCenter.default.addObserver(forName: .didLoginNotification, object: nil , queue: .main, using: { [weak self] _ in
             guard let strongSelf = self else { return }
@@ -77,7 +77,7 @@ class ConversationViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-//        tableView.frame = view.bounds
+        tableView.frame = view.bounds
 //        view.addSubview(noConversationLabel)
 //        view.addSubview(tableView)
     }
@@ -109,7 +109,7 @@ class ConversationViewController: UIViewController {
             switch result {
             case .success(let conversations):
                 guard !conversations.isEmpty else {
-                    print("check3=======")
+                    print("check3: successfully got conversation models=======")
                     return
                 }
                 self?.conversations = conversations
@@ -198,7 +198,7 @@ extension ConversationViewController : UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let item = conversations[indexPath.row]
         openConversation(item)
-
+        
        
     }
     
@@ -222,10 +222,10 @@ extension ConversationViewController : UITableViewDataSource {
         let item = conversations[indexPath.row]
 ////        cell.userImageView.image =
 //        cell.userNameLabel.text = item.name
-//        cell.userMessageLabel.text = item.lastestMessage.text
+//        cell.userMessageLabel.text = item.latestMessage.text
       
         
-        cell.updateView(image: UIImage(named:""), name: item.name, message: item.lastestMessage.text)
+        cell.updateView(image: UIImage(named:""), name: item.name, message: item.latestMessage.text)
         
         
         cell.accessoryType = .disclosureIndicator

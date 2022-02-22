@@ -45,6 +45,7 @@ class ConversationTableCell :UITableViewCell {
         stack.spacing = 16
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 20)
+//        stack.backgroundColor = .blue
         return stack
     }()
     
