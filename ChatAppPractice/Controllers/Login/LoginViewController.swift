@@ -187,7 +187,7 @@ class LoginViewController: UIViewController {
                     guard let userData = data as? [String: Any],
                             let name = userData["name"] else{ return }
 
-                    UserDefaults.standard.set(name, forKey: "email")
+                    UserDefaults.standard.set(name, forKey: "name")
                 case .failure(let error):
                     print("Failed to read data with error \(error)")
                     
@@ -195,6 +195,7 @@ class LoginViewController: UIViewController {
             }
             UserDefaults.standard.set(email, forKey: "email")
             
+            print()
             
             print("==================logged in successfully with this user: \(user)=================")
             
