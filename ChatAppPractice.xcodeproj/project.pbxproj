@@ -19,6 +19,7 @@
 		B34BF20927B70E51004BF3DA /* NewConversationViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BF20827B70E51004BF3DA /* NewConversationViewCell.swift */; };
 		B34BF20C27B7127A004BF3DA /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BF20B27B7127A004BF3DA /* Message.swift */; };
 		B34BF20F27B712BB004BF3DA /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34BF20E27B712BB004BF3DA /* Sender.swift */; };
+		B3C386E827C4831E0019AD47 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C386E727C4831E0019AD47 /* Extension.swift */; };
 		B3DC3B4327C37C7200D9AB63 /* NewConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DC3B4227C37C7200D9AB63 /* NewConversationTableViewCell.swift */; };
 		B3DD1AEA27BDCC4A00A7EF3A /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DD1AE927BDCC4A00A7EF3A /* DateFormatters.swift */; };
 		B3E02B6727B0549C00ADA9F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E02B6627B0549C00ADA9F4 /* AppDelegate.swift */; };
@@ -49,6 +50,7 @@
 		B34BF20827B70E51004BF3DA /* NewConversationViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewCell.swift; sourceTree = "<group>"; };
 		B34BF20B27B7127A004BF3DA /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B34BF20E27B712BB004BF3DA /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
+		B3C386E727C4831E0019AD47 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		B3DC3B4227C37C7200D9AB63 /* NewConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationTableViewCell.swift; sourceTree = "<group>"; };
 		B3DD1AE927BDCC4A00A7EF3A /* DateFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
 		B3E02B6327B0549C00ADA9F4 /* ChatAppPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatAppPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +191,7 @@
 				B3E02B6827B0549C00ADA9F4 /* SceneDelegate.swift */,
 				B3E02B6627B0549C00ADA9F4 /* AppDelegate.swift */,
 				B3E02BA327B3915600ADA9F4 /* DatabaseManager.swift */,
+				B3C386E727C4831E0019AD47 /* Extension.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				B34BF20F27B712BB004BF3DA /* Sender.swift in Sources */,
 				B3DC3B4327C37C7200D9AB63 /* NewConversationTableViewCell.swift in Sources */,
 				B3E02B8927B0576200ADA9F4 /* NewConversationViewController.swift in Sources */,
+				B3C386E827C4831E0019AD47 /* Extension.swift in Sources */,
 				B3E02B6927B0549C00ADA9F4 /* SceneDelegate.swift in Sources */,
 				B34BF20927B70E51004BF3DA /* NewConversationViewCell.swift in Sources */,
 				B3E02B8727B0575100ADA9F4 /* VideoPlayerViewController.swift in Sources */,

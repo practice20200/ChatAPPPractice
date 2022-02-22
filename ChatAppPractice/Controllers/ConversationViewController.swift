@@ -64,7 +64,8 @@ class ConversationViewController: UIViewController {
         fetchConverssations()
         startListeningForConversations()
         
-        loginObserver = NotificationCenter.default.addObserver(forName: .didLoadNotification, object: nil, queue: .main, using: { [weak self] _ in
+        
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLoginNotification, object: nil , queue: .main, using: { [weak self] _ in
             guard let strongSelf = self else { return }
             strongSelf .startListeningForConversations()
         })
@@ -207,13 +208,17 @@ extension ConversationViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        return if editingStyle == .delete {
+        if editingStyle == .delete {
+            let conversationId = conversations[indexPath.row].id
             tableView.beginUpdates()
-            conversations.remove(at: indexPath.row)
             
-            tableView.deleteRows(at: [indexPath], with: .left)
-            
-            
+            DatabaseManager.shared.deleteConversation(conversationId: conversationId) {[weak self] success in
+                if success{
+                    self?.conversations.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .left)
+                }
+            }
+
             tableView.endUpdates()
         }
     }
