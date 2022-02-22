@@ -192,7 +192,7 @@ extension  ChatViewController : InputBarAccessoryViewDelegate{
         let message = Message(sender: selfSender, messageId: messageId, sentDate: Date(), kind: .text(text))
         print("isNewConversation==============")
         if isNewConversation{
-            print("isNewConversationfsdafaf")
+            print("\(isNewConversation): isNewConversation")
             DatabaseManager.shared.createNewConversation(with: otherUserEmail, name: self.title ?? "User", firstMessage: message) { [weak self] success in
                print("isNewConversation")
                 if success {
@@ -215,6 +215,7 @@ extension  ChatViewController : InputBarAccessoryViewDelegate{
                 }
             }
         }
+        print("print1")
     }
     
     private func createMessageId() -> String? {

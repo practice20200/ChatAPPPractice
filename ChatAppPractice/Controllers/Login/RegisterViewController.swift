@@ -209,7 +209,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
             guard let strongSelf = self else { return }
             print("3333333")
             DispatchQueue.main.async {
-                print("444444")
+                print("44444444444 Email: \(email)")
                 strongSelf.spinner.dismiss()
             }
             print("exsists:        \(exists)")
@@ -219,24 +219,29 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
                 return
             }
 
-            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) {   authResult, error in
+            
+            
+            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                
                 guard authResult != nil, error == nil else{
                     print("Error occured")
                     return
                 }
+                print("555555555555 Email: \(email)")
                 let chatUser = ChatAppUser(userName: userName, email: email)
                 DatabaseManager.shared.insertUser(with: chatUser) { success in
                     if success {
                         guard let image = strongSelf.iconImageView.image, let data = image.pngData() else{
+
                             return
                         }
+                        print("6666666666666666 Email: \(email)")
                         let fileName = chatUser.profilePictureURL
                         StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { result in
                             switch result {
                             case .success(let downloadUrl):
                                 UserDefaults.standard.setValue(downloadUrl, forKey: "profile_picture_url")
-                                print(downloadUrl)
+                                print("downloadUrl: \(downloadUrl)")
                             case .failure(let error):
                                 print("Storage manager error: \(error)")
                             }
@@ -244,13 +249,14 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
                     }
                 }
 
-                print("Created a new user:")
                 
+
                 strongSelf.navigationController?.dismiss(animated: true,completion: nil)
             }
             
 //            let vc = ConversationViewController()
 //            self.navigationController?.pushViewController(vc, animated: true)
+            print("Created a new user:")
         })
     }
     

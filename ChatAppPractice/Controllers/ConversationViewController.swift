@@ -29,6 +29,7 @@ class ConversationViewController: UIViewController {
     ////===================== elements ======================
     private let spinner = JGProgressHUD(style: .dark)
     private var conversations = [Conversation]()
+    private var loginObserver: NSObjectProtocol?
     
     lazy var tableView : UITableView = {
         let table = UITableView()
@@ -51,6 +52,8 @@ class ConversationViewController: UIViewController {
     }()
     
     
+    
+    
     //===================== views ======================
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +64,11 @@ class ConversationViewController: UIViewController {
         fetchConverssations()
         startListeningForConversations()
         
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLoadNotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf .startListeningForConversations()
+        })
+        
         
         let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(composeHandler))
         self.navigationItem.rightBarButtonItem = composeButton
@@ -68,7 +76,9 @@ class ConversationViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
+//        tableView.frame = view.bounds
+//        view.addSubview(noConversationLabel)
+//        view.addSubview(tableView)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -86,6 +96,10 @@ class ConversationViewController: UIViewController {
     private func startListeningForConversations(){
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else{ return }
         print("check1=======")
+        if let observer = loginObserver{
+            NotificationCenter.default.removeObserver(observer)
+        }
+        
         let safeEmail = DatabaseManager.safeEmail(email: email)
         print("check2:  \(email)=======")
         print("check2:  \(DatabaseManager.safeEmail(email: email))=======")
@@ -186,6 +200,22 @@ extension ConversationViewController : UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        return if editingStyle == .delete {
+            tableView.beginUpdates()
+            conversations.remove(at: indexPath.row)
+            
+            tableView.deleteRows(at: [indexPath], with: .left)
+            
+            
+            tableView.endUpdates()
+        }
     }
 
 }

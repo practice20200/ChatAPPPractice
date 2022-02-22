@@ -42,7 +42,7 @@ extension DatabaseManager{
     }
     
     public func insertUser(with user : ChatAppUser, completion: @escaping (Bool) -> Void){
-        database.child(user.safeEmail).setValue(["user name": user.userName]) { error, _ in
+        database.child(user.safeEmail).setValue(["name": user.userName]) { error, _ in
             guard error == nil else{
                 print("failed to write to database")
                 completion(false)
@@ -90,6 +90,7 @@ extension DatabaseManager{
                 completion(.failure(DatabaseError.failedToFetch))
                 return
             }
+            print("Succeeded in recieving user's list")
             completion(.success(value))
         }
     }
@@ -107,7 +108,7 @@ extension DatabaseManager {
     public func createNewConversation(with otherUserEmail: String, name: String ,firstMessage: Message, completion: @escaping (Bool) -> Void){
         guard let currentEmail = UserDefaults.standard.value(forKey: "email") as? String,
                 let currentName = UserDefaults.standard.value(forKey: "name") as? String else {
-                print("check1")
+                print("check1-createNewConversation")
                 return
         }
         

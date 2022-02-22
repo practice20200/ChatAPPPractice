@@ -30,7 +30,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
+//        tableView.frame = view.bounds
     }
     
     
@@ -49,13 +49,13 @@ class ProfileViewController: UIViewController {
         let headerView = BaseUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 300))
         headerView.backgroundColor = .link
         
-        let imageView = BaseUIImageView(frame: CGRect(x: (headerView.frame.width-150)/2, y: 75, width: 150, height: 150))
+        let imageView = UIImageView(frame: CGRect(x: (headerView.frame.width-150)/2, y: 75, width: 150, height: 150))
         imageView.contentMode = .scaleAspectFill
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.layer.borderWidth = 3
         imageView.layer.cornerRadius = imageView.bounds.width/2
         imageView.layer.masksToBounds = true
-        
+//        imageView.clipsToBounds = true
         headerView.addSubview(imageView)
         
         print("test2")
@@ -65,6 +65,7 @@ class ProfileViewController: UIViewController {
             
             switch result {
             case .success(let url):
+                print("url@@@@@@: \(url)")
                 self?.downloadImage(imageView: imageView, url: url)
             case .failure(let error):
                 print("Failed to get download url: \(error)")
