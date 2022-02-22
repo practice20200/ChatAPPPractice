@@ -26,12 +26,11 @@ extension DatabaseManager{
     public func userExists(with email: String, completion: @escaping((Bool) -> Void)){
         
         // to avoid confliction from invalid Path with some symbols(".", "@"......)
-        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        let safeEmail = DatabaseManager.safeEmail(email: email)
 
         
         database.child(safeEmail).observeSingleEvent(of: .value, with: { snapshot in
-            guard snapshot.value as? String != nil else {
+            guard snapshot.value as? [String: Any] != nil else {
                 completion(false)
                 print("This user doesn't exsit. You can create a new user.")
                 return
@@ -552,6 +551,37 @@ extension DatabaseManager {
                 })
             }
             
+        }
+    }
+    
+    public func conversationExists(with targetRecipientEmail: String, completion: @escaping (Result<String, Error>) -> Void){
+        let safeRecipientEmail = DatabaseManager.safeEmail(email: targetRecipientEmail)
+        guard  let senderEmail = UserDefaults.standard.value(forKey: "email") as? String else {
+            return
+        }
+        let safeSenderEmail =  DatabaseManager.safeEmail(email: senderEmail)
+        
+        database.child("\(safeRecipientEmail)/conversations").observeSingleEvent(of: .value) { snapshot in
+            guard let collection = snapshot.value as? [[String: Any]] else {
+                completion(.failure(DatabaseError.failedToFetch))
+                return
+            }
+            
+            if let conversation = collection.first(where: {
+                guard let targetSenderEmail = $0["other_user_email"] as? String else {
+                    return false
+                }
+                return safeSenderEmail == targetSenderEmail
+            }){
+                guard let id = conversation["id"] as? String else {
+                    completion(.failure(DatabaseError.failedToFetch))
+                    return
+                }
+                completion(.success(id))
+                return
+            }
+            completion(.failure(DatabaseError.failedToFetch))
+            return
         }
     }
 }
