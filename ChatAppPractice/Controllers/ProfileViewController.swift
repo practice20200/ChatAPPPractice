@@ -41,10 +41,13 @@ class ProfileViewController: UIViewController {
             print("email was nil: ")
             return nil
         }
-    
+        
         let safeEmail = DatabaseManager.safeEmail(email: email)
         let fileName = safeEmail + "_profile_picture.png"
         let path = "images/" + fileName
+        
+        print("====email: \(email)")
+        print("====safeEmail: \(safeEmail)")
         
         let headerView = BaseUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 300))
         headerView.backgroundColor = .link

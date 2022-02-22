@@ -1,5 +1,5 @@
 //
-//  RegisterViewController.swift
+//   ViewController.swift
 //  ChatAppPractice
 //
 //  Created by Apple New on 2022-02-06.
@@ -242,6 +242,8 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
                             case .success(let downloadUrl):
                                 UserDefaults.standard.setValue(downloadUrl, forKey: "profile_picture_url")
                                 print("downloadUrl: \(downloadUrl)")
+                                print("downloadUrl + : \(downloadUrl)" + "profile_picture_url")
+
                             case .failure(let error):
                                 print("Storage manager error: \(error)")
                             }
