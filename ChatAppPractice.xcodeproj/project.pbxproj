@@ -100,6 +100,7 @@
 			children = (
 				B34BF20627B6FF59004BF3DA /* ConversationTableViewCell.swift */,
 				B34BF20827B70E51004BF3DA /* NewConversationViewCell.swift */,
+				B3DC3B4227C37C7200D9AB63 /* NewConversationTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -170,7 +171,6 @@
 				B34BF20527B6FF30004BF3DA /* Cell */,
 				B3E02B7E27B0552100ADA9F4 /* Storyboards */,
 				B3E02B6F27B0549F00ADA9F4 /* Assets.xcassets */,
-				B3DC3B4227C37C7200D9AB63 /* NewConversationTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

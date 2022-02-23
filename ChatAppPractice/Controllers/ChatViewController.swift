@@ -196,10 +196,10 @@ extension  ChatViewController : InputBarAccessoryViewDelegate{
             DatabaseManager.shared.createNewConversation(with: otherUserEmail, name: self.title ?? "User", firstMessage: message) { [weak self] success in
                print("isNewConversation")
                 if success {
-                    print("message is sent successfully")
+                    print("New Conversation:  message is sent successfully")
                     self?.isNewConversation = false
                 } else{
-                    print("failed to send a message")
+                    print("New Conversation: failed to send a message")
                 }
             }
         }else{
@@ -209,9 +209,9 @@ extension  ChatViewController : InputBarAccessoryViewDelegate{
 
                 print("!isNewConversation")
                 if success {
-                    print("message sent")
+                    print("Conversation continued fro the latest message:    message sent")
                 } else{
-                    print("failed to send")
+                    print("Conversation continued fro the latest message:    failed to send")
                 }
             }
         }
@@ -222,7 +222,7 @@ extension  ChatViewController : InputBarAccessoryViewDelegate{
         
         guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else {
             print("let dateString = Self.dateFormatter.string(from: Date()) is nil")
-            return "ddd"
+            return "emai is nil"
             
         }
         print("GOOD")

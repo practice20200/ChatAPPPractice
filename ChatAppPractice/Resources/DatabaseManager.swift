@@ -89,6 +89,8 @@ extension DatabaseManager{
                 completion(.failure(DatabaseError.failedToFetch))
                 return
             }
+            
+            
             print("Succeeded in recieving user's list")
             completion(.success(value))
         }
@@ -111,7 +113,8 @@ extension DatabaseManager {
                 return
         }
         
-        print("check2")
+        print("check2  Name:   \(currentName)")
+        print("check2  Name:   \(name)")
         let safeEmail = DatabaseManager.safeEmail(email: currentEmail)
         let ref = database.child("\(safeEmail)")
         ref.observeSingleEvent(of: .value) { snapshot in
@@ -156,7 +159,7 @@ extension DatabaseManager {
                     "id" : conversationID,
                     "other_user_email" : otherUserEmail,
                     "name": currentName,
-                    "last_message" : [
+                    "latest_message" : [
                         "date" : dateString,
                         "message": message,
                         "is_read": false
@@ -167,7 +170,7 @@ extension DatabaseManager {
                 "id" : conversationID,
                 "other_user_email" : safeEmail,
                 "name": "",
-                "last_message" : [
+                "latest_message" : [
                     "date" : dateString,
                     "message": message,
                     "is_read": false
@@ -283,6 +286,7 @@ extension DatabaseManager {
                 completion(.failure(DatabaseError.failedToFetch))
                 return
             }
+            
             let conversations: [Conversation] = value.compactMap { dictionary in
                 guard let conversationId = dictionary ["id"] as? String,
                       let name = dictionary["name"] as? String,
@@ -291,12 +295,12 @@ extension DatabaseManager {
                       let date = latestMessage["date"] as? String,
                       let message = latestMessage["message"] as? String,
                       let isRead = latestMessage["is_read"] as? Bool else {
-                          print("no")
+                          print("Conversation model nil : getAllConversation function")
                           return nil }
 
                 print("Success reading Conversation data")
                 let latestMessageObject = LatestMessage(date: date, text: message, isRead: isRead)
-                return Conversation(id: conversationId, name: name, otherUserEmail: otherUserEmail, lastestMessage: latestMessageObject)
+                return Conversation(id: conversationId, name: name, otherUserEmail: otherUserEmail, latestMessage: latestMessageObject)
             }
             completion(.success(conversations))
         })
@@ -458,7 +462,7 @@ extension DatabaseManager {
                                     "id" : conversation,
                                     "other_user_email" : DatabaseManager.safeEmail(email: otherUserEmail),
                                     "name": name,
-                                    "last_message" : updatedValue
+                                    "latest_message" : updatedValue
                                        
                                 ]
                                 currentUserConversations.append(newConversationData)
@@ -469,7 +473,7 @@ extension DatabaseManager {
                                 "id" : conversation,
                                 "other_user_email" : DatabaseManager.safeEmail(email: otherUserEmail),
                                 "name": name,
-                                "last_message" : updatedValue
+                                "latest_message" : updatedValue
                                    
                             ]
                             
@@ -518,7 +522,7 @@ extension DatabaseManager {
                                             "id" : conversation,
                                             "other_user_email" : DatabaseManager.safeEmail(email: currentUserEmail),
                                             "name": currentName,
-                                            "last_message" : updatedValue
+                                            "latest_message" : updatedValue
                                                
                                         ]
                                         otherUserConversations.append(newConversationData)
@@ -531,7 +535,7 @@ extension DatabaseManager {
                                         "id" : conversation,
                                         "other_user_email" : DatabaseManager.safeEmail(email: currentUserEmail),
                                         "name": name,
-                                        "last_message" : updatedValue
+                                        "latest_message" : updatedValue
                                            
                                     ]
                                     databaseEntryConversations = [ newConversationData ]
@@ -668,6 +672,6 @@ struct ChatAppUser{
 //
 //    print("Success reading Conversation data")
 //    let latestMessageObject = LatestMessage(date: date, text: message, isRead: isRead)
-//    return Conversation(id: conversationId, name: name, otherUserEmail: otherUserEmail, lastestMessage: latestMessageObject)
+//    return Conversation(id: conversationId, name: name, otherUserEmail: otherUserEmail, latestMessage: latestMessageObject)
 //}
 //completion(.success(conversations))
