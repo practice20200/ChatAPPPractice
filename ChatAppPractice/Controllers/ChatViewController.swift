@@ -11,6 +11,7 @@ import InputBarAccessoryView
 import SDWebImage
 import AVKit
 import AVFoundation
+import CoreLocation
 
 class ChatViewController: MessagesViewController {
 
@@ -123,9 +124,24 @@ class ChatViewController: MessagesViewController {
         actionSheet.addAction(UIAlertAction(title: "Audio", style: .default, handler: { _ in
             
         }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Location", style: .default, handler: {[weak self] _ in
+            self?.presentLocationPicker()
+        }))
 //
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(actionSheet, animated: true)
+    }
+    
+    private func presentLocationPicker(){
+        let vc = LocationPickerViewController()
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc .completion = { [weak self] selectedCoordinates in
+            let longtitude: Double = selectedCoordinates.longitude
+            let latitude: Double = selectedCoordinates.latitude
+            print("Long: \(longtitude),   Lat: \(latitude)")
+        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func presentPhotoInputActionSheet(){
@@ -394,5 +410,10 @@ struct Media : MediaItem {
     var url: URL?
     var image: UIImage?
     var placeholderImage: UIImage
+    var size: CGSize
+}
+
+struct Location: LocationItem {
+    var location: CLLocation
     var size: CGSize
 }
