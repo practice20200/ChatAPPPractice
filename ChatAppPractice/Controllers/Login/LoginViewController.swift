@@ -34,21 +34,20 @@ class LoginViewController: UIViewController {
         let tf = BaseUITextField()
         tf.placeholder = "Email"
         tf.returnKeyType = .continue
-        tf.backgroundColor = UIColor.white
+        tf.backgroundColor = .secondarySystemBackground
         tf.layer.shadowOpacity = 1.0
         tf.layer.shadowColor = UIColor.lightGray.cgColor
         tf.heightAnchor.constraint(equalToConstant: 50).isActive = true
         tf.layer.cornerRadius = 15
         tf.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         tf.leftViewMode = .always
-        tf.backgroundColor = .white
         return tf
     }()
     
     lazy var passTF: BaseUITextField = {
         let tf = BaseUITextField()
         tf.placeholder = "Password"
-        tf.backgroundColor = UIColor.white
+        tf.backgroundColor = .secondarySystemBackground
         tf.layer.shadowOpacity = 1.0
         tf.layer.shadowColor = UIColor.lightGray.cgColor
         tf.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -70,7 +69,7 @@ class LoginViewController: UIViewController {
         let button = BaseUIButton()
         button.setTitle("Log in", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.systemGreen
+        button.backgroundColor = .link
         button.layer.shadowOpacity = 1.0
         button.layer.shadowColor = UIColor.lightGray.cgColor
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -91,7 +90,7 @@ class LoginViewController: UIViewController {
     // ============================== Viww ==============================
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = .systemBackground
         title = "Log in"
         
         view.addSubview(scrollView)

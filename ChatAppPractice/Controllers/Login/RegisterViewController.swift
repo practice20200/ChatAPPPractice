@@ -31,9 +31,9 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 2
         imageView.layer.borderColor = UIColor.lightGray.cgColor
-        imageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        imageView.layer.cornerRadius = 100
+        imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        imageView.layer.cornerRadius = 50
         return imageView
     }()
     
@@ -41,14 +41,13 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
         let tf = BaseUITextField()
         tf.placeholder = "User Name"
         tf.returnKeyType = .continue
-        tf.backgroundColor = UIColor.white
+        tf.backgroundColor = .secondarySystemBackground
         tf.layer.shadowOpacity = 1.0
         tf.layer.shadowColor = UIColor.lightGray.cgColor
         tf.heightAnchor.constraint(equalToConstant: 50).isActive = true
         tf.layer.cornerRadius = 15
         tf.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         tf.leftViewMode = .always
-        tf.backgroundColor = .white
         return tf
     }()
     
@@ -56,21 +55,20 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
         let tf = BaseUITextField()
         tf.placeholder = "Email"
         tf.returnKeyType = .continue
-        tf.backgroundColor = UIColor.white
+        tf.backgroundColor = .secondarySystemBackground
         tf.layer.shadowOpacity = 1.0
         tf.layer.shadowColor = UIColor.lightGray.cgColor
         tf.heightAnchor.constraint(equalToConstant: 50).isActive = true
         tf.layer.cornerRadius = 15
         tf.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         tf.leftViewMode = .always
-        tf.backgroundColor = .white
         return tf
     }()
     
     lazy var passTF: BaseUITextField = {
         let tf = BaseUITextField()
         tf.placeholder = "Password"
-        tf.backgroundColor = UIColor.white
+        tf.backgroundColor = .secondarySystemBackground
         tf.layer.shadowOpacity = 1.0
         tf.layer.shadowColor = UIColor.lightGray.cgColor
         tf.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -116,7 +114,7 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
     // ============================== Viww ==============================
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = .systemBackground
         title = "Log in"
         
         view.addSubview(scrollView)

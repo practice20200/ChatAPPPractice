@@ -17,6 +17,8 @@ class NewConversationViewController: UIViewController {
     private var hasFetched = false
     private var results = [SearchResult]()
     
+    
+    // ============ Elements ============
     lazy var searchBar : UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Search for users"
@@ -43,9 +45,11 @@ class NewConversationViewController: UIViewController {
         return label
     }()
 
+    
+    // ============ Views ============
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         view.addSubview(noResultLabel)
         view.addSubview(tableView)
         searchBar.delegate = self
@@ -67,6 +71,11 @@ class NewConversationViewController: UIViewController {
         noResultLabel.frame = CGRect(x: view.bounds.width/4, y: (view.bounds.height / -200)/2, width: view.bounds.width/2, height: 200)
     }
 
+    
+    
+    
+    
+    // ============ Functions ============
     @objc func cancelSearcHandler(){
         dismiss(animated: true, completion: nil)
     }
