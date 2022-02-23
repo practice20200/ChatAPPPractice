@@ -8,13 +8,14 @@
 import UIKit
 import FirebaseAuth
 import Elements
+import SDWebImage
 
 class ProfileViewController: UIViewController {
 
     
     //==================== Elements =====================
     @IBOutlet var tableView: UITableView!
-    let sectionData = ["Cnage profilePicture", "Log out", "Delete account"]
+    var sectionData = ["User Name", "email", "Log out", "Delete account"]
     
     
     
@@ -59,31 +60,31 @@ class ProfileViewController: UIViewController {
         headerView.addSubview(imageView)
         
         print("test2")
-        StorageManager.shared.downloadURL(for: path) { [weak self] result in
+        StorageManager.shared.downloadURL(for: path) { result in
             print("test3")
             print("images/ + fileName:     \("images/" + fileName)")
             
             switch result {
             case .success(let url):
-                print("url@@@@@@: \(url)")
-                self?.downloadImage(imageView: imageView, url: url)
+                print("Got donwload url successfully: \(url)")
+                imageView.sd_setImage(with: url, completed: nil)
             case .failure(let error):
                 print("Failed to get download url: \(error)")
             }
         }
-
         return  headerView
     }
     
-    func downloadImage(imageView: UIImageView, url: URL){
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data, error == nil else { return }
-            DispatchQueue.main.async {
-                let image = UIImage(data: data)
-                imageView.image = image
-            }
-        }.resume()
-    }
+//    func downloadImage(imageView: UIImageView, url: URL){
+//        imageView.sd_setImage(with: url, completed: nil)
+////        URLSession.shared.dataTask(with: url) { data, _, error in
+////            guard let data = data, error == nil else { return }
+////            DispatchQueue.main.async {
+////                let image = UIImage(data: data)
+////                imageView.image = image
+////            }
+////        }.resume()
+//    }
 }
 
 
@@ -92,9 +93,15 @@ extension ProfileViewController : UITableViewDelegate{
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if sectionData[indexPath.row] == "Log out" {
-            print("koko: \(sectionData[indexPath.row])")
+            print("log out was tapped: \(sectionData[indexPath.row])")
             logOutHandler()
         }
+//            else if  sectionData[indexPath.row] == "User Name" {
+//            print("user name was tapped: \(sectionData[indexPath.row])")
+////            sectionData[indexPath.row] = Auth.auth().currentUser?.value(forKey: "email") as! String
+//            sectionData[indexPath.row] = "Changed"
+//
+//        }
     }
     
     func logOutHandler(){
@@ -124,6 +131,7 @@ extension ProfileViewController : UITableViewDelegate{
         present(alertView, animated: true)
         
     }
+    
 }
 
 extension ProfileViewController : UITableViewDataSource {
@@ -133,10 +141,19 @@ extension ProfileViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = sectionData[indexPath.row]
-       // let item = data[indexPath.row]
-        
-        cell.textLabel?.textColor = .red
+        if indexPath.row == 0{
+            let userName = "User Name: \(UserDefaults.standard.value(forKey: "name") as? String ?? "No Name")"
+            cell.textLabel?.text = userName
+            print("userName: \(userName)")
+        } else if indexPath.row == 1{
+            print("here")
+            cell.textLabel?.text = "Email: \(UserDefaults.standard.value(forKey: "email") as? String ?? "No Email")"
+            print("here\(String(describing: Auth.auth().currentUser?.email?.description))")
+        }else{
+            cell.textLabel?.text = sectionData[indexPath.row]
+            cell.textLabel?.textColor = .red
+        }
+            
         
         return cell
     }
