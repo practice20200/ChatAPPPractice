@@ -225,14 +225,16 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
                     print("Error occured")
                     return
                 }
+                
+                UserDefaults.standard.setValue(email, forKey:"email")
+                UserDefaults.standard.setValue(userName, forKey:"name")
+                
                 print("555555555555 Email: \(email)")
                 let chatUser = ChatAppUser(userName: userName, email: email)
                 DatabaseManager.shared.insertUser(with: chatUser) { success in
                     if success {
-                        guard let image = strongSelf.iconImageView.image, let data = image.pngData() else{
+                        guard let image = strongSelf.iconImageView.image, let data = image.pngData() else{ return }
 
-                            return
-                        }
                         print("6666666666666666 Email: \(email)")
                         let fileName = chatUser.profilePictureURL
                         StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { result in
