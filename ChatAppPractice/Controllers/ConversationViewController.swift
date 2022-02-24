@@ -175,7 +175,7 @@ class ConversationViewController: UIViewController {
         
         let name = result.name
         let email = DatabaseManager.safeEmail(email: result.email)
-        print(" reate new Conversation is OK")
+        print(" Create new Conversation is OK")
         
         DatabaseManager.shared.conversationExists(with: email) {[weak self] result in
             guard let strongSelf = self else{ return }

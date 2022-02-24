@@ -137,12 +137,43 @@ class ChatViewController: MessagesViewController {
     }
     
     private func presentLocationPicker(){
+<<<<<<< HEAD
 //        let vc = LocationPickerViewController()
 //        vc.navigationItem.largeTitleDisplayMode = .never
 //        vc .completion = { [weak self] selectedCoordinates in
 //            let longtitude: Double = selectedCoordinates.longitude
 //            let latitude: Double = selectedCoordinates.latitude
 //            print("Long: \(longtitude),   Lat: \(latitude)")
+=======
+        let vc = LocationPickerViewController(coordinates: nil)
+        vc.title = "Pick Location "
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc .completion = { [weak self] selectedCoordinates in
+            guard let strongSelf = self else{ return }
+            guard
+                let messageID = strongSelf.createMessageId(),
+                let conversationID = strongSelf.conversationID,
+                let name = strongSelf.title,
+                let selfSnder = strongSelf.selfSender
+            else{ return }
+
+            
+            let longtitude: Double = selectedCoordinates.longitude
+            let latitude: Double = selectedCoordinates.latitude
+            print("Long: \(longtitude),   Lat: \(latitude)")
+            
+            let location = Location(location: CLLocation(latitude: latitude, longitude: longtitude), size: .zero)
+            let message = Message(sender: selfSnder, messageId: messageID, sentDate: Date(), kind: .location(location))
+//
+        DatabaseManager.shared.sendMessage(to: conversationID, otherUserEmail: conversationID, name: name, newMessage: message) { success in
+                if success {
+                    print("sent location message")
+                }else{
+                    print("failed to sand a location messge")
+                }
+            }
+            
+>>>>>>> main
         }
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -369,15 +400,21 @@ extension ChatViewController: MessageCellDelegate {
         let message = messages[indexPath.section]
 
         switch message.kind {
-        case .photo(let media):
-            guard let imageUrl = media.url else { return }
-            let vc = PhotoViewrViewController(with: imageUrl)
+//        case .photo(let media):
+//            guard let imageUrl = media.url else { return }
+//            let vc = PhotoViewrViewController(with: imageUrl)
+//            self.navigationController?.pushViewController(vc, animated: true)
+        case .location(let locationData):
+            let coordinates = locationData.location.coordinate
+            let vc = LocationPickerViewController(coordinates: coordinates)
+            vc.title = "Location''"
             self.navigationController?.pushViewController(vc, animated: true)
-        case .video(let media):
-            guard let videoUrl = media.url else { return }
-            let vc = AVPlayerViewController()
-            vc.player = AVPlayer(url: videoUrl)
-            present(vc, animated: true)
+//        case .video(let media):
+//        case .video(let media):
+//            guard let videoUrl = media.url else { return }
+//            let vc = AVPlayerViewController()
+//            vc.player = AVPlayer(url: videoUrl)
+//            present(vc, animated: true)
         default:
             break
         }
