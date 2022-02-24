@@ -12,7 +12,7 @@ import JGProgressHUD
 
 //import FBSDKKit
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
     
     //-------------------Ellements  ==============================
     private let spinner = JGProgressHUD(style: .dark)
@@ -184,29 +184,20 @@ class LoginViewController: UIViewController {
                 switch result {
                 case .success(let data):
                     guard let userData = data as? [String: Any],
-                            let name = userData["name"] else{ return }
+                            let name = userData["name"] as? String else{ return }
 
-                    UserDefaults.standard.set(name, forKey: "name")
+                    UserDefaults.standard.set("\(name)", forKey: "name")
+                    
                 case .failure(let error):
                     print("Failed to read data with error \(error)")
-                    
                 }
             }
             UserDefaults.standard.set(email, forKey: "email")
-            
-            print()
-            
             print("==================logged in successfully with this user: \(user)=================")
             
             strongSelf.navigationController?.dismiss(animated: true,completion: nil)
-            
         }
-        
-            
-
     }
-    
-
 }
 
 
@@ -218,7 +209,6 @@ extension LoginViewController : UITextFieldDelegate{
         }else if textField == passTF{
             loginHandler()
         }
-        
         return true
     }
 }

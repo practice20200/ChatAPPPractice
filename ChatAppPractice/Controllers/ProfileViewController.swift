@@ -10,7 +10,7 @@ import FirebaseAuth
 import Elements
 import SDWebImage
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
 
     
     //==================== Elements =====================

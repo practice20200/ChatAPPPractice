@@ -51,6 +51,7 @@
 		B3EA9FBF27C7FBDC00148CEB /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EA9FBE27C7FBDC00148CEB /* Conversation.swift */; };
 		B3EA9FC227C8015E00148CEB /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EA9FC127C8015E00148CEB /* Location.swift */; };
 		B3EA9FC427C8017800148CEB /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EA9FC327C8017800148CEB /* Media.swift */; };
+		B3EA9FC727C8039800148CEB /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EA9FC627C8039800148CEB /* SearchResult.swift */; };
 		B3EDD39327B8B5340020FA83 /* StrageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EDD39227B8B5340020FA83 /* StrageManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -84,6 +85,7 @@
 		B3EA9FBE27C7FBDC00148CEB /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		B3EA9FC127C8015E00148CEB /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		B3EA9FC327C8017800148CEB /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
+		B3EA9FC627C8039800148CEB /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		B3EDD39227B8B5340020FA83 /* StrageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -201,6 +203,7 @@
 		B3E02B7C27B054E700ADA9F4 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				B3EA9FC527C8037E00148CEB /* NewConversaionViewController */,
 				B3EA9FC027C8013000148CEB /* New Group */,
 				B3EA9FBB27C7FBA000148CEB /* ConversationViewController */,
 				B34BF20D27B71285004BF3DA /* ChatViewController */,
@@ -253,6 +256,14 @@
 			children = (
 			);
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		B3EA9FC527C8037E00148CEB /* NewConversaionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B3EA9FC627C8039800148CEB /* SearchResult.swift */,
+			);
+			path = NewConversaionViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -390,6 +401,7 @@
 				B3C386E827C4831E0019AD47 /* Extensions.swift in Sources */,
 				B3E02B6927B0549C00ADA9F4 /* SceneDelegate.swift in Sources */,
 				B34BF20927B70E51004BF3DA /* NewConversationViewCell.swift in Sources */,
+				B3EA9FC727C8039800148CEB /* SearchResult.swift in Sources */,
 				B3E02B8727B0575100ADA9F4 /* VideoPlayerViewController.swift in Sources */,
 				B3E02B8527B056F800ADA9F4 /* PhotoViewrViewController.swift in Sources */,
 				B3EA9FC427C8017800148CEB /* Media.swift in Sources */,

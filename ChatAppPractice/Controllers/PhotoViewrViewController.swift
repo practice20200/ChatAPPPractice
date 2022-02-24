@@ -9,7 +9,7 @@ import UIKit
 import SDWebImage
 import Elements
 
-class PhotoViewrViewController: UIViewController {
+final class PhotoViewrViewController: UIViewController {
 
     private let url: URL
     

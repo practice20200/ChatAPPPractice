@@ -10,7 +10,7 @@ import Elements
 import FirebaseAuth
 import JGProgressHUD
 
-class RegisterViewController: UIViewController, UINavigationControllerDelegate {
+final class RegisterViewController: UIViewController, UINavigationControllerDelegate {
 
     //==========================   Ellements  ==============================
     
@@ -196,13 +196,12 @@ class RegisterViewController: UIViewController, UINavigationControllerDelegate {
                       errorAlert()
                       return
         }
-        
-        
-        
 
-        print("1111111")
+        print("loginHandler1111111")
         spinner.show(in: view)
-        print("2222222")
+        print("loginHandler2222222")
+        
+        
         DatabaseManager.shared.userExists(with: email, completion: {[weak self] exists in
             guard let strongSelf = self else { return }
             print("3333333")

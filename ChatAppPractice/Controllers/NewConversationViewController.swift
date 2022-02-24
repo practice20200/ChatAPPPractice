@@ -10,7 +10,7 @@ import SwiftUI
 import Elements
 import JGProgressHUD
 
-class NewConversationViewController: UIViewController {
+final class NewConversationViewController: UIViewController {
     public var completion: ((SearchResult) -> Void)?
     private let spinner = JGProgressHUD(style: .dark)
     private var users = [[String: String]]()
@@ -177,7 +177,3 @@ extension NewConversationViewController: UISearchBarDelegate {
 }
 
 
-struct SearchResult {
-    let name: String
-    let email: String
-}
