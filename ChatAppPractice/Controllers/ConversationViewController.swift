@@ -189,7 +189,7 @@ extension ConversationViewController : UITableViewDelegate {
         let vc = ChatViewController(with: item.otherUserEmail, id: item.id)
         vc.title = item.name
         vc.navigationItem.largeTitleDisplayMode = .never
-        vc.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
        
     }
 }
