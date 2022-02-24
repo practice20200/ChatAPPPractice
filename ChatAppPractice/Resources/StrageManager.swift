@@ -8,13 +8,18 @@
 import Foundation
 import FirebaseStorage
 
+//Get, fetch, upload files to firebase storage
 final class StorageManager {
     static let shared = StorageManager()
     private let storage = Storage.storage().reference()
-    
+    private init(){}
     public typealias UPloadPictureCompletion = (Result< String, Error >)  -> Void
+    
+    
+    // ========== Functions ==========
     public func uploadProfilePicture(with data : Data, fileName: String, completion: @escaping UPloadPictureCompletion){
 
+        /// FileName:     images/test1_yahoooooo.picture_png
         storage.child("images/" + fileName).putData(data, metadata: nil, completion:{ [weak self]
             metadata, error in
             
@@ -81,22 +86,19 @@ final class StorageManager {
                 return
             }
             print("succeeded in uploading a picture")
-            strongSelf.storage.child("message_images/\(fileName)").downloadURL(completion: {  url, error in
+            strongSelf.storage.child("message_videos/\(fileName)").downloadURL(completion: {  url, error in
                 guard let url = url else {
                     print("failed to get download url.")
                     completion(.failure(StorageErrors.failedToGetDownloadUrl))
                     return
-                            
                 }
                 let urlString = url.absoluteString
                print("download url returned: \(urlString)")
                 completion(.success(urlString))
             })
         })
- 
+
     }
-    
-    
     
     public enum StorageErrors: Error {
         case failedToUpload
@@ -111,8 +113,6 @@ final class StorageManager {
             }
             completion(.success(url))
         }
-        
-        
     }
 }
 
