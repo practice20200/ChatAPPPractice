@@ -136,15 +136,11 @@ class ChatViewController: MessagesViewController {
         present(actionSheet, animated: true)
     }
     
+
+
+    
+    
     private func presentLocationPicker(){
-<<<<<<< HEAD
-//        let vc = LocationPickerViewController()
-//        vc.navigationItem.largeTitleDisplayMode = .never
-//        vc .completion = { [weak self] selectedCoordinates in
-//            let longtitude: Double = selectedCoordinates.longitude
-//            let latitude: Double = selectedCoordinates.latitude
-//            print("Long: \(longtitude),   Lat: \(latitude)")
-=======
         let vc = LocationPickerViewController(coordinates: nil)
         vc.title = "Pick Location "
         vc.navigationItem.largeTitleDisplayMode = .never
@@ -172,8 +168,7 @@ class ChatViewController: MessagesViewController {
                     print("failed to sand a location messge")
                 }
             }
-            
->>>>>>> main
+    
         }
         self.navigationController?.pushViewController(vc, animated: true)
     }
