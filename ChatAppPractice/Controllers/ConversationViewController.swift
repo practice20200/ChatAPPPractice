@@ -220,11 +220,14 @@ extension ConversationViewController : UITableViewDataSource {
         if editingStyle == .delete {
             let conversationId = conversations[indexPath.row].id
             tableView.beginUpdates()
+            self.conversations.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
             
-            DatabaseManager.shared.deleteConversation(conversationId: conversationId) {[weak self] success in
+            DatabaseManager.shared.deleteConversation(conversationId: conversationId) { success in
                 if success{
-                    self?.conversations.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .left)
+                    print("Succeeded to delete conversaion")
+                }else{
+                    print("Failed to delete conversation")
                 }
             }
             tableView.endUpdates()
