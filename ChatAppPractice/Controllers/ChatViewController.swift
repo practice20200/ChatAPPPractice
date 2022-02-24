@@ -293,7 +293,16 @@ extension ChatViewController : MessagesDataSource, MessagesLayoutDelegate, Messa
 //        default:
 //            break
 //        }
-//    }
+//
+    
+    
+    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        let sender = message.sender
+        if sender.senderId == selfSender?.senderId{
+            return . link
+        }
+        return .secondarySystemBackground 
+    }
 }
 
 
