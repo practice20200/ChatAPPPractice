@@ -12,7 +12,7 @@ import MapKit
 class LocationPickerViewController: UIViewController {
     
     public var completion: ((CLLocationCoordinate2D) -> Void)?
-    private var isPickable = true
+    public var isPickable = true
     private var coordinates: CLLocationCoordinate2D?
     
     // ============= Elements =============
@@ -23,7 +23,7 @@ class LocationPickerViewController: UIViewController {
     
     init(coordinates: CLLocationCoordinate2D?){
         self.coordinates = coordinates
-        self.isPickable = false
+        self.isPickable = coordinates == nil
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -38,14 +38,16 @@ class LocationPickerViewController: UIViewController {
         view.addSubview(map)
         view.backgroundColor = .systemBackground
         if isPickable{
+            print("Tapped")
             map.isUserInteractionEnabled = true
-            let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapMap))
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapMap(_ :)))
             gesture.numberOfTapsRequired = 1
             gesture.numberOfTouchesRequired = 1
             map.addGestureRecognizer(gesture)
             let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneHandler))
             self.navigationItem.rightBarButtonItem = doneButton
         }else{
+            print("unTapped")
             guard let coordinates = self.coordinates else { return }
             let pin = MKPointAnnotation()
             pin.coordinate = coordinates
@@ -81,5 +83,6 @@ class LocationPickerViewController: UIViewController {
         map.addAnnotation(pin)
     }
     
-    //override var presentingViewController: UIViewController?
+    
+    
 }
