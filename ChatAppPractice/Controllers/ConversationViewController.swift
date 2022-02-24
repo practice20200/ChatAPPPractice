@@ -57,11 +57,11 @@ class ConversationViewController: UIViewController {
     //===================== views ======================
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = .secondarySystemBackground
         view.addSubview(tableView)
         view.addSubview(noConversationLabel)
         setUpTableView()
-        fetchConverssations()
+        //fetchConverssations()
         startListeningForConversations()
         print("the number of current conversations (conversations.count): \(conversations.count)")
         
@@ -78,6 +78,7 @@ class ConversationViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
+        noConversationLabel.frame = CGRect(x: 10, y: (view.bounds.height-100)*1/2, width: view.bounds.width-20, height: 100)
 //        view.addSubview(noConversationLabel)
 //        view.addSubview(tableView)
     }
@@ -100,24 +101,30 @@ class ConversationViewController: UIViewController {
         if let observer = loginObserver{
             NotificationCenter.default.removeObserver(observer)
         }
-        
+        print("====== Starting conversation fetch =======")
         let safeEmail = DatabaseManager.safeEmail(email: email)
-        print("check2:  \(email)=======")
-        print("check2:  \(DatabaseManager.safeEmail(email: email))=======")
+        print("check2 success:  \(email)=======")
+        print("check2 success:  \(DatabaseManager.safeEmail(email: email))=======")
         //to prevent memory cicle weak self when tableView is reloaded
         DatabaseManager.shared.getAllConversations(for: safeEmail) { [weak self] result in
             switch result {
             case .success(let conversations):
                 guard !conversations.isEmpty else {
                     print("check3: successfully got conversation models=======")
+                    self?.tableView.isHidden = false
+                    self?.noConversationLabel.isHidden = false
                     return
                 }
+                self?.noConversationLabel.isHidden = true
+                self?.tableView.isHidden = false
                 self?.conversations = conversations
                 
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
                 }
             case .failure(let error):
+                self?.tableView.isHidden = true
+                self?.noConversationLabel.isHidden = false
                 print("failed to get conversations: \(error)")
             }
         }
@@ -137,10 +144,10 @@ class ConversationViewController: UIViewController {
         tableView.dataSource = self
     }
     
-    private func fetchConverssations(){
-        tableView.isHidden = false
-    }
-    
+//    private func fetchConverssations(){
+//        tableView.isHidden = false
+//    }
+//
     
     //===================== Buttons ======================
     @objc func composeHandler(){
