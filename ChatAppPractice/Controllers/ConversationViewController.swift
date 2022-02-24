@@ -9,22 +9,9 @@ import UIKit
 import FirebaseAuth
 import Elements
 import JGProgressHUD
-import SwiftUI
 
-struct Conversation{
-    let id: String
-    let name: String
-    var otherUserEmail: String
-    let latestMessage: LatestMessage
-}
 
-struct LatestMessage{
-    let date: String
-    let text: String
-    let isRead: Bool
-}
-
-class ConversationViewController: UIViewController {
+final class ConversationViewController: UIViewController {
 
     ////===================== elements ======================
     private let spinner = JGProgressHUD(style: .dark)
@@ -61,13 +48,12 @@ class ConversationViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(noConversationLabel)
         setUpTableView()
-        //fetchConverssations()
         startListeningForConversations()
         print("the number of current conversations (conversations.count): \(conversations.count)")
         
         loginObserver = NotificationCenter.default.addObserver(forName: .didLoginNotification, object: nil , queue: .main, using: { [weak self] _ in
             guard let strongSelf = self else { return }
-            strongSelf .startListeningForConversations()
+            strongSelf.startListeningForConversations()
         })
         
         
@@ -79,14 +65,11 @@ class ConversationViewController: UIViewController {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
         noConversationLabel.frame = CGRect(x: 10, y: (view.bounds.height-100)*1/2, width: view.bounds.width-20, height: 100)
-//        view.addSubview(noConversationLabel)
-//        view.addSubview(tableView)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         validateAuth()
-        
     }
     
     
@@ -144,33 +127,6 @@ class ConversationViewController: UIViewController {
         tableView.dataSource = self
     }
     
-//    private func fetchConverssations(){
-//        tableView.isHidden = false
-//    }
-//
-    
-    //===================== Buttons ======================
-    @objc func composeHandler(){
-        let vc = NewConversationViewController()
-        vc.completion = { [weak self] result in
-            guard let strongSelf = self else { return }
-            let currentConversations = strongSelf.conversations
-            if let targetConversation = currentConversations.first(where: {
-                $0.otherUserEmail == DatabaseManager.safeEmail(email: result.email)
-            }){
-                let vc = ChatViewController(with: targetConversation.otherUserEmail, id: targetConversation.id)
-                vc.isNewConversation = false
-                vc.title = targetConversation.name
-                vc.navigationItem.largeTitleDisplayMode = .never
-                strongSelf.navigationController?.pushViewController(vc, animated: true)
-            }
-            
-            strongSelf.createrNewConversation(result: result)
-        }
-        let navVC = UINavigationController(rootViewController: vc)
-        present(navVC, animated: true)
-    }
-    
     private func createrNewConversation( result: SearchResult){
         
         let name = result.name
@@ -194,19 +150,39 @@ class ConversationViewController: UIViewController {
                 strongSelf.navigationController?.pushViewController(vc, animated: true)
             }
         }
-        
-       
+    }
+    
+    
+    //===================== Buttons ======================
+    @objc func composeHandler(){
+        let vc = NewConversationViewController()
+        vc.completion = { [weak self] result in
+            guard let strongSelf = self else { return }
+            let currentConversations = strongSelf.conversations
+            if let targetConversation = currentConversations.first(where: {
+                $0.otherUserEmail == DatabaseManager.safeEmail(email: result.email)
+            }){
+                let vc = ChatViewController(with: targetConversation.otherUserEmail, id: targetConversation.id)
+                vc.isNewConversation = false
+                vc.title = targetConversation.name
+                vc.navigationItem.largeTitleDisplayMode = .never
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+            }else{
+                strongSelf.createrNewConversation(result: result)
+            }
+        }
+        let navVC = UINavigationController(rootViewController: vc)
+        present(navVC, animated: true)
     }
 }
 
 
 extension ConversationViewController : UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let item = conversations[indexPath.row]
         openConversation(item)
-        
-       
     }
     
     func openConversation(_ item: Conversation){
@@ -216,7 +192,6 @@ extension ConversationViewController : UITableViewDelegate {
         vc.navigationController?.pushViewController(vc, animated: true)
        
     }
-    
 }
 
 extension ConversationViewController : UITableViewDataSource {
@@ -227,15 +202,9 @@ extension ConversationViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ConversationTableCell
         let item = conversations[indexPath.row]
-////        cell.userImageView.image =
-//        cell.userNameLabel.text = item.name
-//        cell.userMessageLabel.text = item.latestMessage.text
-      
-        
+
         cell.updateView(image: UIImage(named:""), name: item.name, message: item.latestMessage.text)
-        
-        
-        cell.accessoryType = .disclosureIndicator
+//        cell.accessoryType = .disclosureIndicator
         return cell
     }
 
@@ -258,11 +227,9 @@ extension ConversationViewController : UITableViewDataSource {
                     tableView.deleteRows(at: [indexPath], with: .left)
                 }
             }
-
             tableView.endUpdates()
         }
     }
-
 }
 
 
