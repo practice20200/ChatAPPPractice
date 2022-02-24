@@ -13,7 +13,7 @@ import AVKit
 import AVFoundation
 import CoreLocation
 
-class ChatViewController: MessagesViewController {
+final class ChatViewController: MessagesViewController {
 
     private var senderPhotoURL: URL?
     private var otherUserPhotoURL: URL?
@@ -503,14 +503,4 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
 //}
 
 
-struct Media : MediaItem {
-    var url: URL?
-    var image: UIImage?
-    var placeholderImage: UIImage
-    var size: CGSize
-}
 
-struct Location: LocationItem {
-    var location: CLLocation
-    var size: CGSize
-}

@@ -49,6 +49,8 @@
 		B3E02BA427B3915700ADA9F4 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E02BA327B3915600ADA9F4 /* DatabaseManager.swift */; };
 		B3EA9FBD27C7FBBE00148CEB /* LatestMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EA9FBC27C7FBBE00148CEB /* LatestMessage.swift */; };
 		B3EA9FBF27C7FBDC00148CEB /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EA9FBE27C7FBDC00148CEB /* Conversation.swift */; };
+		B3EA9FC227C8015E00148CEB /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EA9FC127C8015E00148CEB /* Location.swift */; };
+		B3EA9FC427C8017800148CEB /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EA9FC327C8017800148CEB /* Media.swift */; };
 		B3EDD39327B8B5340020FA83 /* StrageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EDD39227B8B5340020FA83 /* StrageManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +82,8 @@
 		B3E02BA327B3915600ADA9F4 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		B3EA9FBC27C7FBBE00148CEB /* LatestMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestMessage.swift; sourceTree = "<group>"; };
 		B3EA9FBE27C7FBDC00148CEB /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		B3EA9FC127C8015E00148CEB /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		B3EA9FC327C8017800148CEB /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		B3EDD39227B8B5340020FA83 /* StrageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,6 +130,8 @@
 			children = (
 				B34BF20B27B7127A004BF3DA /* Message.swift */,
 				B34BF20E27B712BB004BF3DA /* Sender.swift */,
+				B3EA9FC127C8015E00148CEB /* Location.swift */,
+				B3EA9FC327C8017800148CEB /* Media.swift */,
 			);
 			path = ChatViewController;
 			sourceTree = "<group>";
@@ -195,6 +201,7 @@
 		B3E02B7C27B054E700ADA9F4 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				B3EA9FC027C8013000148CEB /* New Group */,
 				B3EA9FBB27C7FBA000148CEB /* ConversationViewController */,
 				B34BF20D27B71285004BF3DA /* ChatViewController */,
 			);
@@ -239,6 +246,13 @@
 				B3EA9FBE27C7FBDC00148CEB /* Conversation.swift */,
 			);
 			path = ConversationViewController;
+			sourceTree = "<group>";
+		};
+		B3EA9FC027C8013000148CEB /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -378,6 +392,8 @@
 				B34BF20927B70E51004BF3DA /* NewConversationViewCell.swift in Sources */,
 				B3E02B8727B0575100ADA9F4 /* VideoPlayerViewController.swift in Sources */,
 				B3E02B8527B056F800ADA9F4 /* PhotoViewrViewController.swift in Sources */,
+				B3EA9FC427C8017800148CEB /* Media.swift in Sources */,
+				B3EA9FC227C8015E00148CEB /* Location.swift in Sources */,
 				B3DD1AEA27BDCC4A00A7EF3A /* DateFormatters.swift in Sources */,
 				B34BF20727B6FF59004BF3DA /* ConversationTableViewCell.swift in Sources */,
 				B3EA9FBF27C7FBDC00148CEB /* Conversation.swift in Sources */,
