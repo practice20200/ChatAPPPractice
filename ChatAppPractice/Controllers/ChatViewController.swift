@@ -137,14 +137,14 @@ class ChatViewController: MessagesViewController {
     }
     
     private func presentLocationPicker(){
-        let vc = LocationPickerViewController()
-        vc.navigationItem.largeTitleDisplayMode = .never
-        vc .completion = { [weak self] selectedCoordinates in
-            let longtitude: Double = selectedCoordinates.longitude
-            let latitude: Double = selectedCoordinates.latitude
-            print("Long: \(longtitude),   Lat: \(latitude)")
+//        let vc = LocationPickerViewController()
+//        vc.navigationItem.largeTitleDisplayMode = .never
+//        vc .completion = { [weak self] selectedCoordinates in
+//            let longtitude: Double = selectedCoordinates.longitude
+//            let latitude: Double = selectedCoordinates.latitude
+//            print("Long: \(longtitude),   Lat: \(latitude)")
         }
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func presentPhotoInputActionSheet(){
@@ -317,7 +317,7 @@ extension ChatViewController : MessagesDataSource, MessagesLayoutDelegate, Messa
         
         let sender = message.sender
         if sender.senderId == selfSender?.senderId{
-            if let currentUserImageURL = self.senderPhotoURL{
+            if let currentUserImageURL = senderPhotoURL{
                 avatarView.sd_setImage(with: currentUserImageURL, completed: nil)
             }else{
                 guard let email = UserDefaults.standard.value(forKey: "email") as? String else { return }

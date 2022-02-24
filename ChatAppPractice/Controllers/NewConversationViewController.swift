@@ -58,7 +58,7 @@ class NewConversationViewController: UIViewController {
         tableView.dataSource = self
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelSearcHandler))
-        self.navigationItem.rightBarButtonItem = cancelButton
+        navigationItem.rightBarButtonItem = cancelButton
         navigationController?.navigationBar.topItem?.titleView = searchBar
 
         
@@ -124,7 +124,7 @@ extension NewConversationViewController: UISearchBarDelegate {
         
         searchBar.resignFirstResponder()
         
-        self.serachUsers(query: text)
+        serachUsers(query: text)
         print("you found your friend successfully")
     }
     func serachUsers(query: String){
@@ -151,7 +151,7 @@ extension NewConversationViewController: UISearchBarDelegate {
         
         self.spinner.dismiss()
         
-        let results : [SearchResult] = self.users.filter({
+        let results : [SearchResult] = users.filter({
             guard let email = $0["email"] ,email != safeEmail else{ return false }
             guard let name = $0["name"]?.lowercased() else { return false }
             return  name.hasPrefix(term.lowercased())
@@ -165,13 +165,13 @@ extension NewConversationViewController: UISearchBarDelegate {
     }
     
     func updateUI(){
-        if results.isEmpty{
-            self.noResultLabel.isHidden = false
-            self.tableView.isHidden = true
+        if  results.isEmpty{
+            noResultLabel.isHidden = false
+            tableView.isHidden = true
         }else{
-            self.noResultLabel.isHidden = true
-            self.tableView.isHidden = false
-            self.tableView.reloadData()
+            noResultLabel.isHidden = true
+            tableView.isHidden = false
+            tableView.reloadData()
         }
     }
 }

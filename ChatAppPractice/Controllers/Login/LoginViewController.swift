@@ -127,7 +127,7 @@ class LoginViewController: UIViewController {
 
         
         let registerButton = UIBarButtonItem(title: "Register", style: .done, target: self, action: #selector(registerHandler))
-        self.navigationItem.rightBarButtonItem = registerButton
+        navigationItem.rightBarButtonItem = registerButton
     }
     
     override func viewDidLayoutSubviews() {
@@ -151,7 +151,7 @@ class LoginViewController: UIViewController {
     @objc func registerHandler(){
         let vc = RegisterViewController()
         vc.title = "Create Account"
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func loginHandler(){

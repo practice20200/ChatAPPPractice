@@ -15,8 +15,10 @@ final class StorageManager {
     public typealias UPloadPictureCompletion = (Result< String, Error >)  -> Void
     public func uploadProfilePicture(with data : Data, fileName: String, completion: @escaping UPloadPictureCompletion){
 
-        storage.child("images/" + fileName).putData(data, metadata: nil, completion:{
+        storage.child("images/" + fileName).putData(data, metadata: nil, completion:{ [weak self]
             metadata, error in
+            
+            guard let strongSelf = self else { return }
             print("fileName: \(fileName)")
             guard error == nil else {
                 print("failed to upload data to firebase for picture.")
@@ -24,7 +26,7 @@ final class StorageManager {
                 return
             }
             print("succeeded in uploading a picture")
-            self.storage.child("images/" + fileName).downloadURL(completion: { url, error in
+            strongSelf.storage.child("images/" + fileName).downloadURL(completion: { url, error in
                 guard let url = url else {
                     print("failed to get download url.")
                     completion(.failure(StorageErrors.failedToGetDownloadUrl))
@@ -33,15 +35,17 @@ final class StorageManager {
                 let urlString = url.absoluteString
                print("download url returned: \(urlString)")
                 completion(.success(urlString))
+            })
         })
-    })
  
     }
     
     public func uploadMessagePhoto(with data : Data, fileName: String, completion: @escaping UPloadPictureCompletion){
 
-        storage.child("message_images/\(fileName)").putData(data, metadata: nil, completion:{
+        storage.child("message_images/\(fileName)").putData(data, metadata: nil, completion:{ [weak self]
             metadata, error in
+            guard let strongSelf = self else { return }
+            
             print("fileName: \(fileName)")
             guard error == nil else {
                 print("failed to upload data to firebase for picture.")
@@ -49,7 +53,7 @@ final class StorageManager {
                 return
             }
             print("succeeded in uploading a picture")
-            self.storage.child("message_images/" + fileName).downloadURL(completion: { url, error in
+            strongSelf.storage.child("message_images/" + fileName).downloadURL(completion: { url, error in
                 guard let url = url else {
                     print("failed to get download url.")
                     completion(.failure(StorageErrors.failedToGetDownloadUrl))
@@ -68,6 +72,8 @@ final class StorageManager {
 
         storage.child("message_videos/\(fileName)").putFile(from: fileUrl, metadata: nil, completion:{
            [weak self] metadata, error in
+            guard let strongSelf = self else { return }
+            
             print("fileName: \(fileName)")
             guard error == nil else {
                 print("failed to upload video file to firebase for videos.")
@@ -75,7 +81,7 @@ final class StorageManager {
                 return
             }
             print("succeeded in uploading a picture")
-            self?.storage.child("message_images/\(fileName)").downloadURL(completion: {  url, error in
+            strongSelf.storage.child("message_images/\(fileName)").downloadURL(completion: {  url, error in
                 guard let url = url else {
                     print("failed to get download url.")
                     completion(.failure(StorageErrors.failedToGetDownloadUrl))
@@ -85,8 +91,8 @@ final class StorageManager {
                 let urlString = url.absoluteString
                print("download url returned: \(urlString)")
                 completion(.success(urlString))
+            })
         })
-    })
  
     }
     

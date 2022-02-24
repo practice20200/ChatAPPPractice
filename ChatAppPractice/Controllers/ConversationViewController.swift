@@ -72,7 +72,7 @@ class ConversationViewController: UIViewController {
         
         
         let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(composeHandler))
-        self.navigationItem.rightBarButtonItem = composeButton
+        navigationItem.rightBarButtonItem = composeButton
     }
 
     override func viewDidLayoutSubviews() {

@@ -41,14 +41,15 @@ extension DatabaseManager{
     }
     
     public func insertUser(with user : ChatAppUser, completion: @escaping (Bool) -> Void){
-        database.child(user.safeEmail).setValue(["name": user.userName]) { error, _ in
+        database.child(user.safeEmail).setValue(["name": user.userName]) {[weak self] error, _ in
+            guard let strongSelf = self else { return }
             guard error == nil else{
                 print("failed to write to database")
                 completion(false)
                 return
             }
             
-            self.database.child("users").observeSingleEvent(of: .value) {[weak self] snapshot in
+            strongSelf.database.child("users").observeSingleEvent(of: .value) {snapshot in
                 if var usersCollection = snapshot.value as? [[String: String]]{
                     //append to user dictionary
                     let newElement = [
@@ -56,7 +57,7 @@ extension DatabaseManager{
                          "email": user.email
                     ]
                     usersCollection.append(newElement)
-                    self?.database.child("users").setValue(usersCollection) { error, _ in
+                    strongSelf.database.child("users").setValue(usersCollection) { error, _ in
                         guard error == nil else {
                             completion(false)
                             return
@@ -70,7 +71,7 @@ extension DatabaseManager{
                         ["name": user.userName,
                          "email": user.email]
                     ]
-                    self?.database.child("users").setValue(newCollection) { error, _ in
+                    strongSelf.database.child("users").setValue(newCollection) { error, _ in
                         guard error == nil else {
                             completion(false)
                             return
@@ -107,11 +108,14 @@ extension DatabaseManager{
 extension DatabaseManager {
     // Create a new conversation with target user email and first message sent
     public func createNewConversation(with otherUserEmail: String, name: String ,firstMessage: Message, completion: @escaping (Bool) -> Void){
+        
+        
         guard let currentEmail = UserDefaults.standard.value(forKey: "email") as? String,
                 let currentName = UserDefaults.standard.value(forKey: "name") as? String else {
                 print("check1-createNewConversation")
                 return
         }
+        
         
         print("check2  Name:   \(currentName)")
         print("check2  Name:   \(name)")
@@ -563,7 +567,7 @@ extension DatabaseManager {
 
 extension DatabaseManager {
     public func getDataFor(path: String, completion: @escaping (Result<Any, Error>) -> Void){
-        self.database.child("\(path)").observeSingleEvent(of: .value, with: { snapshot in
+        database.child("\(path)").observeSingleEvent(of: .value, with: { snapshot in
             guard let value = snapshot.value else {
                 completion(.failure(DatabaseError.failedToFetch))
                 return
