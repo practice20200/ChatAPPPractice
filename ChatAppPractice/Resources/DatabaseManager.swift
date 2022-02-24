@@ -116,7 +116,6 @@ extension DatabaseManager{
         // to avoid confliction from invalid Path with some symbols(".", "@"......)
         let safeEmail = DatabaseManager.safeEmail(email: email)
 
-        
         database.child(safeEmail).observeSingleEvent(of: .value, with: { snapshot in
             guard snapshot.value as? [String: Any] != nil else {
                 completion(false)
@@ -214,7 +213,7 @@ extension DatabaseManager {
         print("check2  Name:   \(name)")
         let safeEmail = DatabaseManager.safeEmail(email: currentEmail)
         let ref = database.child("\(safeEmail)")
-        ref.observeSingleEvent(of: .value) { snapshot in
+        ref.observeSingleEvent(of: .value) { [weak self] snapshot in
             guard var userNode = snapshot.value as? [String: Any] else {
                 completion(false)
                 print("check3")
@@ -255,7 +254,7 @@ extension DatabaseManager {
                 let newConversationData : [String: Any] = [
                     "id" : conversationID,
                     "other_user_email" : otherUserEmail,
-                    "name": currentName,
+                    "name": name,
                     "latest_message" : [
                         "date" : dateString,
                         "message": message,
@@ -266,7 +265,7 @@ extension DatabaseManager {
             let recipient_newConversationData : [String: Any] = [
                 "id" : conversationID,
                 "other_user_email" : safeEmail,
-                "name": "",
+                "name": currentName,
                 "latest_message" : [
                     "date" : dateString,
                     "message": message,
@@ -274,7 +273,7 @@ extension DatabaseManager {
                 ]
             ]
             
-            self.database.child("\(otherUserEmail)/conversations").observeSingleEvent(of: .value, with: { [weak self] snapshot in
+            self?.database.child("\(otherUserEmail)/conversations").observeSingleEvent(of: .value, with: { [weak self] snapshot in
                 if var conversations = snapshot.value as? [[String: Any]] {
                     conversations.append(recipient_newConversationData)
                     self?.database.child("\(otherUserEmail)/conversations").setValue(conversations)
@@ -472,7 +471,7 @@ extension DatabaseManager {
         let currentEmail = DatabaseManager.safeEmail(email: myEmail)
 //        DatabaseManager.shared.sendMessage(to: self.conversationID, message: message) { @escaping: (Bool) ->  in
             self.database.child("\(conversation)/messages").observeSingleEvent(of: .value, with: {[weak self] snapshot in
-                
+                 
                 guard let strongSelf = self else{
                     return
                 }
@@ -502,7 +501,7 @@ extension DatabaseManager {
                     break
                 case .location(let locationData):
                     let location = locationData.location
-                    message = "\(location.coordinate.longitude), \(location.coordinate.latitude)"
+                    message = "\(location.coordinate.longitude),\(location.coordinate.latitude)"
                     break
                 case .emoji(_):
                     break
@@ -550,7 +549,6 @@ extension DatabaseManager {
                             var position = 0
                             for conversationDictionary in currentUserConversations {
                                 if let currentID = conversationDictionary["id"] as? String, currentID == conversation {
-        
                                     targetConversation = conversationDictionary
                                     break
                                 }
@@ -587,6 +585,7 @@ extension DatabaseManager {
                         }
 
                         
+                        //Recipient side : LatestMessage
                         strongSelf.database.child("\(currentEmail)/conversations").setValue(databaseEntryConversations) { error , _ in
                             guard error == nil else{
                                 completion(false)
@@ -644,10 +643,7 @@ extension DatabaseManager {
                                     ]
                                     databaseEntryConversations = [ newConversationData ]
                                 }
-                                
-                               
 
-                                
                                 strongSelf.database.child("\(otherUserEmail)/conversations").setValue(databaseEntryConversations) { error , _ in
                                     guard error == nil else{
                                         completion(false)
@@ -662,6 +658,8 @@ extension DatabaseManager {
                 }
             })
         }
+    
+    
 
 }
 

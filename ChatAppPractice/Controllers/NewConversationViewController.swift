@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SwiftUI
 import Elements
 import JGProgressHUD
 
@@ -39,7 +38,7 @@ final class NewConversationViewController: UIViewController {
         let label =  BaseUILabel()
         label.isHidden = true
         label.text = "No Result"
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont.systemFont(ofSize: 24)
         label.textColor = UIColor.systemRed
         label.textAlignment = .center
         return label
@@ -127,11 +126,9 @@ extension NewConversationViewController: UISearchBarDelegate {
         serachUsers(query: text)
         print("you found your friend successfully")
     }
+    
     func serachUsers(query: String){
-        if hasFetched{
-            
-        }
-        else{
+        if !hasFetched{
             DatabaseManager.shared.getAllUsers { [weak self] result in
                 switch result {
                 case .success(let usersCollection):
