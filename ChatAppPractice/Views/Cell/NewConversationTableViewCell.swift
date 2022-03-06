@@ -49,7 +49,6 @@ class NewConversationTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        configure(with: SearchResult)
         contentView.addSubview(userImageView)
         contentView.addSubview(userNameLabel)
         
@@ -70,7 +69,7 @@ class NewConversationTableViewCell: UITableViewCell {
     
 
     public func configure(with model: SearchResult) {
-           userNameLabel.text = model.name
+        userNameLabel.text = model.name
         
         let safeEmail = DatabaseManager.safeEmail(email: model.email)
 

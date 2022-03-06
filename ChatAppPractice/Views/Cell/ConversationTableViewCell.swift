@@ -14,7 +14,7 @@ class ConversationTableCell :UITableViewCell {
     lazy var userImageView: BaseUIImageView = {
         let iv = BaseUIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 50
+        iv.layer.cornerRadius = 25
         iv.layer.masksToBounds = true
         iv.widthAnchor.constraint(equalToConstant: 50).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -51,53 +51,45 @@ class ConversationTableCell :UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configure()
+        contentView.addSubview(userImageView)
+        contentView.addSubview(userNameLabel)
+        contentView.addSubview(userMessageLabel)
+        
+        NSLayoutConstraint.activate([
+            userImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            userImageView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            
+            userNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            userNameLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 20),
+            
+            userMessageLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            userMessageLabel.leadingAnchor.constraint(equalTo: userNameLabel.trailingAnchor, constant: 20),
+        ])
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        configure()
+        fatalError("init(coder: ) has not beeb implemented")
     }
     
 
-    func configure(){ 
-        contentView.addSubview(contentStack)
-        NSLayoutConstraint.activate([
-            contentStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            contentStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            contentStack.topAnchor.constraint(equalTo: contentView.topAnchor),
-            contentStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-        ])
-        
-//        let path = "images/\(item.email)_profile_picture.png"
-//        StorageManager.shared.downloadURL(for: path) { [weak self] result  in
-//            switch result {
-//            case .success(let url):
-//                DispatchQueue.main.async {
-//                    cell.userImageView.sd_setImage(with: url, completed: nil)
-//                }
-//            case .failure(let error):
-//                print("failed to get image url: \(error)")
-//            }
-//        }
-        
-    }
-    
-    func updateView(
-        image: UIImage?,
-        name : String,
-        message : String
-        
-    ) {
-        userImageView.image = image
-        userNameLabel.text = name
-        userMessageLabel.text = message
-        
-    }
-    
-    
+    func configure(with model: Conversation) {
+        userMessageLabel.text = model.latestMessage.text
+        userNameLabel.text = model.name
 
+        let path = "images/\(model.otherUserEmail)_profile_picture.png"
+        StorageManager.shared.downloadURL(for: path, completion: { [weak self] result in
+           switch result {
+               case .success(let url):
+
+                   DispatchQueue.main.async {
+                       self?.userImageView.sd_setImage(with: url, completed: nil)
+                   }
+
+               case .failure(let error):
+                   print("failed to get image url: \(error)")
+           }
+        })
+    }
 }
 
-
-//    public func configure(with model: String)

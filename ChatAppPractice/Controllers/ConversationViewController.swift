@@ -202,9 +202,7 @@ extension ConversationViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ConversationTableCell
         let item = conversations[indexPath.row]
-
-        cell.updateView(image: UIImage(named:""), name: item.name, message: item.latestMessage.text)
-//        cell.accessoryType = .disclosureIndicator
+        cell.configure(with: item)
         return cell
     }
 
