@@ -102,6 +102,8 @@ final class ConversationViewController: UIViewController {
                 self?.tableView.isHidden = false
                 self?.conversations = conversations
                 
+                print("Conversation is empty: Conv")
+                
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
                 }
@@ -136,8 +138,8 @@ final class ConversationViewController: UIViewController {
         DatabaseManager.shared.conversationExists(with: email) {[weak self] result in
             guard let strongSelf = self else{ return }
             switch result {
-            case .success(let conversationId):
-                let vc = ChatViewController(with: email, id: conversationId)
+            case .success(let conversationID):
+                let vc = ChatViewController(with: email, id: conversationID)
                 vc.isNewConversation = false
                 vc.title = name
                 vc.navigationItem.largeTitleDisplayMode = .never
@@ -216,12 +218,12 @@ extension ConversationViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let conversationId = conversations[indexPath.row].id
+            let conversationID = conversations[indexPath.row].id
             tableView.beginUpdates()
             self.conversations.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .left)
             
-            DatabaseManager.shared.deleteConversation(conversationId: conversationId) { success in
+            DatabaseManager.shared.deleteConversation(conversationID: conversationID) { success in
                 if success{
                     print("Succeeded to delete conversaion")
                 }else{

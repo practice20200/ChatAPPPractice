@@ -17,6 +17,9 @@ final class ChatViewController: MessagesViewController {
 
     private var senderPhotoURL: URL?
     private var otherUserPhotoURL: URL?
+    public var isNewConversation = false
+    public let otherUserEmail: String
+    private var conversationID : String?
     
     //========= Elements ===============
     public static let dateFormatter: DateFormatter = {
@@ -27,9 +30,7 @@ final class ChatViewController: MessagesViewController {
         return formatter
     }()
     
-    public var isNewConversation = false
-    public let otherUserEmail: String
-    private var conversationID : String?
+   
     
     private var messages = [Message]()
 //    var data = MessageDataProvider.dataProvider() //will be deleted later
@@ -40,7 +41,7 @@ final class ChatViewController: MessagesViewController {
         }
         
         let safeEmail = DatabaseManager.safeEmail(email: email)
-        return Sender(photpURL: "", senderId: safeEmail, displayName: "")
+        return Sender(photpURL: "", senderId: safeEmail, displayName: "Me")
     }
     
     
@@ -54,6 +55,8 @@ final class ChatViewController: MessagesViewController {
     required init(coder: NSCoder){
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
     
     
     //=============== Views =================
@@ -74,31 +77,42 @@ final class ChatViewController: MessagesViewController {
         super.viewDidAppear(animated)
         messageInputBar.inputTextView.becomeFirstResponder()
         if let conversationID = conversationID {
+            print("conversationID Success: \(conversationID)")
             listenForMessages(id: conversationID, shouldScrollToButtom: true)
         }
+        print("conversationID != : \(conversationID)")
     }
+    
+    
+    
+    
+    
     // ================= Functions =============
     private func listenForMessages(id: String, shouldScrollToButtom: Bool){
         DatabaseManager.shared.getAllMessagesForConversation(with: id) { [weak self] result in
             switch result {
             case .success(let messages):
-                guard !messages.isEmpty else { return }
+                guard !messages.isEmpty else {
+                    print("message was read successfully but empty")
+                    return }
                 self?.messages = messages
                 DispatchQueue.main.async {
                     self?.messagesCollectionView.reloadDataAndKeepOffset()
                     if shouldScrollToButtom{
                         self?.messagesCollectionView.reloadData()
                     }else{
-                        self?.messagesCollectionView.scrollToBottom()
+                        self?.messagesCollectionView.scrollToLastItem()
                     }
                     
                 }
                 
             case .failure(let error):
-                print("failed to get messages: \(error)")
+                print("failed to get messages C: \(error)")
             }
         }
     }
+    
+    
     
     private func setupInputButton(){
         let button = InputBarButtonItem()
@@ -109,9 +123,7 @@ final class ChatViewController: MessagesViewController {
         }
             messageInputBar.setLeftStackViewWidthConstant(to: 36, animated: false)
             messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
-        
     }
-    
     
     
     
@@ -137,9 +149,6 @@ final class ChatViewController: MessagesViewController {
     }
     
 
-
-    
-    
     private func presentLocationPicker(){
         let vc = LocationPickerViewController(coordinates: nil)
         vc.title = "Pick Location "
@@ -161,7 +170,7 @@ final class ChatViewController: MessagesViewController {
             let location = Location(location: CLLocation(latitude: latitude, longitude: longtitude), size: .zero)
             let message = Message(sender: selfSnder, messageId: messageID, sentDate: Date(), kind: .location(location))
 //
-        DatabaseManager.shared.sendMessage(to: conversationID, otherUserEmail: conversationID, name: name, newMessage: message) { success in
+            DatabaseManager.shared.sendMessage(to: conversationID, otherUserEmail: strongSelf.otherUserEmail, name: name, newMessage: message) { success in
                 if success {
                     print("sent location message")
                 }else{
@@ -222,6 +231,11 @@ final class ChatViewController: MessagesViewController {
     }
     
 }
+
+
+
+
+
 
 extension  ChatViewController : InputBarAccessoryViewDelegate{
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
@@ -301,7 +315,7 @@ extension ChatViewController : MessagesDataSource, MessagesLayoutDelegate, Messa
     }
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
-       // return message.count
+//        return message.count
         return messages.count // will be replaced with message.count
     }
     
@@ -447,7 +461,7 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
                             let media = Media(url: url, image: nil, placeholderImage: placeholder, size: .zero)
                             let message = Message(sender: selfSnder, messageId: messageID, sentDate: Date(), kind: .photo(media))
         //
-                        DatabaseManager.shared.sendMessage(to: conversationID, otherUserEmail: conversationID, name: name, newMessage: message) { success in
+                        DatabaseManager.shared.sendMessage(to: conversationID, otherUserEmail: strongSelf.otherUserEmail, name: name, newMessage: message) { success in
                             if success {
                                 print("sent photo message")
                             }else{
@@ -472,7 +486,7 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
                         let media = Media(url: url, image: nil, placeholderImage: placeholder, size: .zero)
                         let message = Message(sender: selfSnder, messageId: messageID, sentDate: Date(), kind: .video(media))
     //
-                        DatabaseManager.shared.sendMessage(to: conversationID, otherUserEmail: conversationID, name: name, newMessage: message) { success in
+                    DatabaseManager.shared.sendMessage(to: conversationID, otherUserEmail: strongSelf.otherUserEmail, name: name, newMessage: message) { success in
                             if success {
                                 print("sent video message")
                             }else{
