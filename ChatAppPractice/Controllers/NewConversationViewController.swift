@@ -100,9 +100,9 @@ extension NewConversationViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NewConversationTableViewCell
         let item = results[indexPath.row]
-//        cell.textLabel?.text = results[indexPath.row].name
-        cell.userNameLabel.text = item.name
-//        cell.userImageView.image = 
+////        cell.textLabel?.text = results[indexPath.row].name
+//        cell.userNameLabel.text = item.name
+////        cell.userImageView.image = item.
         cell.configure(with: item)
         return cell
     }

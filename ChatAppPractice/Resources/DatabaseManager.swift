@@ -658,9 +658,7 @@ extension DatabaseManager {
                 }
             })
         }
-    
-    
-
+ 
 }
 
 

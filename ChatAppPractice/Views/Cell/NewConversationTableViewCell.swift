@@ -14,7 +14,7 @@ class NewConversationTableViewCell: UITableViewCell {
     lazy var userImageView: BaseUIImageView = {
         let iv = BaseUIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 50
+        iv.layer.cornerRadius = 25
         iv.layer.masksToBounds = true
         iv.widthAnchor.constraint(equalToConstant: 50).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -52,6 +52,14 @@ class NewConversationTableViewCell: UITableViewCell {
 //        configure(with: SearchResult)
         contentView.addSubview(userImageView)
         contentView.addSubview(userNameLabel)
+        
+        NSLayoutConstraint.activate([
+            userImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            userImageView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            
+            userNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            userNameLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 20),
+        ])
     }
     
     required init?(coder: NSCoder) {
@@ -61,27 +69,23 @@ class NewConversationTableViewCell: UITableViewCell {
     }
     
 
-    func configure(with model: SearchResult){
-        contentView.addSubview(userImageView)
-        contentView.addSubview(userNameLabel)
-        NSLayoutConstraint.activate([
-            userImageView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant:  10),
-            userImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            
-            userNameLabel.leadingAnchor.constraint(equalTo: userImageView.leadingAnchor, constant: 15),
-            userNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ])
-    }
-    
-    func updateView(
-        image: UIImage?,
-        name : String
-//        message : String
+    public func configure(with model: SearchResult) {
+           userNameLabel.text = model.name
         
-    ) {
-        userImageView.image = image
-        userNameLabel.text = name
-//        userMessageLabel.text = message
-        
-    }
+        let safeEmail = DatabaseManager.safeEmail(email: model.email)
+
+           let path = "images/\(safeEmail)_profile_picture.png"
+           StorageManager.shared.downloadURL(for: path, completion: { [weak self] result in
+               switch result {
+                   case .success(let url):
+
+                       DispatchQueue.main.async {
+                           self?.userImageView.sd_setImage(with: url, completed: nil)
+                       }
+
+                   case .failure(let error):
+                       print("failed to get image url: \(error)")
+               }
+           })
+       }
 }

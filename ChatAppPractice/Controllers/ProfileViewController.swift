@@ -71,6 +71,7 @@ final class ProfileViewController: UIViewController {
             case .success(let url):
                 print("Got donwload url successfully: \(url)")
                 imageView.sd_setImage(with: url, completed: nil)
+                
             case .failure(let error):
                 print("Failed to get download url: \(error)")
             }
