@@ -369,6 +369,7 @@ extension ChatViewController : MessagesDataSource, MessagesLayoutDelegate, Messa
                         self?.senderPhotoURL = url
                         DispatchQueue.main.async {
                             avatarView.sd_setImage(with: url, completed: nil)
+                            print("fetching sender's avatar pic was completed")
                         }
                         case .failure(let error):
                             print("error: \(error)")
@@ -376,9 +377,8 @@ extension ChatViewController : MessagesDataSource, MessagesLayoutDelegate, Messa
                 }
             }
         }else{
-            if sender.senderId == selfSender?.senderId{
-                if let currentUserImageURL = self.senderPhotoURL{
-                            avatarView.sd_setImage(with: currentUserImageURL, completed: nil)
+                if let otherUsrePhotoURL = self.otherUserPhotoURL {
+                               avatarView.sd_setImage(with: otherUsrePhotoURL, completed: nil)
                 }
                 else{
                     let email = self.otherUserEmail
@@ -399,7 +399,7 @@ extension ChatViewController : MessagesDataSource, MessagesLayoutDelegate, Messa
             }
         }
     }
-}
+
 
 
 extension ChatViewController: MessageCellDelegate {
