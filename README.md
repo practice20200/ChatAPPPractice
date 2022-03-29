@@ -1,4 +1,4 @@
-#Chat App 
+# Chat App 
 This app is developed for educational purpose of learning firebase and some frameworks. 
 These code and the layout is reffered by AfrazCodes. Please check the URL in Acknowlegements down below.
 
